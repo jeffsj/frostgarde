@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>❄️ Frostgarde</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital@0;1&display=swap');
+:root{--bg:#0d1b2a;--card:#1e3552;--mid:#1a2f4a;--deep:#07101c;--gold:#c9a84c;--gold2:#e8c97a;--frost:#a8d8f0;--bdr:#2d4a6a;--txt:#e8e0d0;--muted:#8a9bb0;--grn:#2ecc71;--red:#e74c3c;--org:#e67e22}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--txt);font-size:16px}
+.C{font-family:'Cinzel',serif}
+header{background:linear-gradient(135deg,#07101c,#1a2f4a,#07101c);border-bottom:2px solid var(--gold);padding:18px;text-align:center}
+header h1{font-family:'Cinzel',serif;font-size:2.2rem;color:var(--gold2);letter-spacing:4px;text-shadow:0 0 20px rgba(201,168,76,.4)}
+header p{color:var(--frost);font-style:italic;margin:4px 0;font-size:.9rem}
+.badge{display:inline-block;background:var(--gold);color:var(--deep);font-family:'Cinzel',serif;font-weight:700;padding:3px 18px;border-radius:20px;font-size:.82rem;margin-top:8px}
+main{max-width:1400px;margin:0 auto;padding:16px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:900px){.g2,.g3{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:16px;margin-bottom:14px}
+.card.b{border-top:3px solid #4a90d9}.card.t{border-top:3px solid #d94a4a}.card.x{border-top:3px solid #9b59b6}.card.v{border-top:3px solid #d9a84a}
+.box{background:var(--mid);border:1px solid var(--bdr);border-radius:7px;padding:12px;margin:6px 0}
+h2{font-family:'Cinzel',serif;color:var(--gold);font-size:.92rem;text-transform:uppercase;letter-spacing:2px;border-bottom:1px solid var(--bdr);padding-bottom:7px;margin-bottom:12px}
+.bank-amt{font-family:'Cinzel',serif;font-size:2.6rem;color:var(--gold2);text-align:center;padding:10px 0}
+input,select,textarea{background:var(--deep);border:1px solid var(--bdr);border-radius:6px;color:var(--txt);padding:7px 10px;font-size:.88rem;font-family:inherit;width:100%;transition:border-color .2s}
+input:focus,select:focus{outline:none;border-color:var(--gold)}
+label{font-size:.73rem;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:2px}
+.row{display:flex;gap:7px;align-items:flex-end;margin:5px 0}
+.row>*{flex:1}.row>.fix{flex:0 0 auto}
+.btn{border:none;border-radius:7px;padding:8px 14px;font-family:'Cinzel',serif;font-weight:700;font-size:.78rem;cursor:pointer;transition:all .18s;white-space:nowrap}
+.bg{background:linear-gradient(135deg,var(--gold),#9a6c18);color:var(--deep)}.bg:hover{background:linear-gradient(135deg,var(--gold2),var(--gold));transform:translateY(-1px)}
+.bgh{background:transparent;border:1px solid var(--bdr);color:var(--muted)}.bgh:hover{border-color:var(--gold);color:var(--gold)}
+.br{background:var(--red);color:#fff}.br:hover{background:#c0392b}.bgn{background:var(--grn);color:#fff}.bgn:hover{background:#27ae60}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.fw{width:100%;margin-top:6px}.sm{padding:4px 9px;font-size:.7rem}
+.tag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:.66rem;font-family:'Cinzel',serif;border:1px solid;margin-left:4px;vertical-align:middle}
+.tg{color:var(--gold);border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.1)}
+.tb{color:var(--frost);border-color:rgba(168,216,240,.4);background:rgba(168,216,240,.1)}
+.tn{color:var(--grn);border-color:rgba(46,204,113,.4);background:rgba(46,204,113,.1)}
+.tr{color:var(--red);border-color:rgba(231,76,60,.4);background:rgba(231,76,60,.1)}
+.prog{background:var(--mid);border-radius:20px;height:12px;overflow:hidden;border:1px solid var(--bdr);margin:5px 0}
+.pf{height:100%;border-radius:20px;transition:width .4s}
+.pg{background:linear-gradient(90deg,var(--gold),var(--gold2))}.pgrn{background:linear-gradient(90deg,#27ae60,var(--grn))}.pbl{background:linear-gradient(90deg,#2980b9,var(--frost))}
+.fb{padding:9px 12px;border-radius:7px;border:1px solid rgba(201,168,76,.25);background:rgba(201,168,76,.07);font-size:.86rem;color:var(--gold2);margin-top:7px;display:none}
+.fb.on{display:block;animation:pop .22s ease}
+@keyframes pop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+.muted{color:var(--muted);font-style:italic;font-size:.84rem}
+.gv{font-family:'Cinzel',serif;color:var(--gold2)}
+.gn{color:var(--grn)}.rd{color:var(--red)}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{font-family:'Cinzel',serif;color:var(--gold);font-size:.7rem;text-transform:uppercase;letter-spacing:.7px;padding:7px 9px;text-align:left;border-bottom:1px solid var(--bdr)}
+td{padding:7px 9px;border-bottom:1px solid rgba(45,74,106,.35);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.ir{display:flex;justify-content:space-between;align-items:center;padding:7px 11px;background:var(--mid);border-radius:6px;border:1px solid var(--bdr);margin-bottom:5px;font-size:.86rem}
+.end-btn{background:linear-gradient(135deg,#922b21,#c0392b);color:#fff;border:none;border-radius:10px;padding:16px;font-family:'Cinzel',serif;font-size:1rem;font-weight:700;cursor:pointer;width:100%;letter-spacing:3px;text-transform:uppercase;transition:all .22s;margin:16px 0}
+.end-btn:hover{background:linear-gradient(135deg,#c0392b,#e74c3c);transform:translateY(-2px);box-shadow:0 8px 28px rgba(192,57,43,.4)}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
+</style>
+</head>
+<body>
+<header>
+  <h1>❄️ Frostgarde ❄️</h1>
+  <p>Bastion of Brandus · Thalric · Xena · Vini Volo Vinci</p>
+  <span class="badge" id="wkBadge">Week 1</span>
+</header>
+<main>
+
+<!-- BANQUE -->
+<div class="card">
+  <h2>🏦 Banque de Frostgarde</h2>
+  <div class="bank-amt" id="bankEl">36,954 GP</div>
+  <div class="g2">
+    <div class="box">
+      <div class="row">
+        <div><label>Amount (GP)</label><input type="number" id="adjAmt" placeholder="0" min="0"></div>
+        <div><label>Note</label><input type="text" id="adjNote" placeholder="Reason..."></div>
+      </div>
+      <div class="row">
+        <button class="btn bgn" onclick="adj(1)">+ Add to Bank</button>
+        <button class="btn br" onclick="adj(-1)">− Deduct from Bank</button>
+      </div>
+    </div>
+    <div class="box" style="max-height:138px;overflow-y:auto">
+      <div class="C" style="font-size:.7rem;color:var(--muted);margin-bottom:6px">RECENT TRANSACTIONS</div>
+      <div id="bankLog" class="muted">No transactions yet.</div>
+    </div>
+  </div>
+</div>
+
+<!-- STABLE + STOREHOUSE -->
+<div class="g2">
+<div class="card">
+  <h2>🐴 Vast Stable <span class="tag tb">6 Large Slots</span></h2>
+  <div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:3px"><span>Capacity</span><span class="gv" id="capLbl">0 / 6 slots</span></div>
+  <div class="prog"><div class="pf pg" id="capFill" style="width:0%"></div></div>
+  <div class="box" style="margin-top:10px">
+    <div class="row">
+      <div><label>Animal</label><select id="aniSel"></select></div>
+      <div style="flex:0 0 70px"><label>Qty</label><input type="number" id="aniQty" value="1" min="1" max="12" style="text-align:center"></div>
+      <div class="fix" style="padding-bottom:1px"><button class="btn bg" onclick="orderAnimals()">Order</button></div>
+    </div>
+    <div id="orderFb" class="fb"></div>
+  </div>
+  <div id="stableList" style="margin-top:8px"></div>
+</div>
+
+<div class="card">
+  <h2>📦 Storehouse <span class="tag tb">Trade Orders</span></h2>
+  <div class="box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span>Stock on Hand:</span><span class="gv" id="stockEl">0 lots</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span>Pending Payout (next week):</span><span id="pendingEl" class="muted">—</span></div>
+    <div class="row">
+      <button class="btn bg" onclick="shBuy()">📥 Buy 2,000 GP Stock</button>
+      <button class="btn bgn" onclick="shSell()" id="btnSell" disabled>📤 Sell → 2,400 GP</button>
+    </div>
+    <div id="shFb" class="fb"></div>
+  </div>
+  <div class="muted box">Buying deducts 2,000 GP immediately. Selling schedules 2,400 GP at the <em>start</em> of next week. One pending sale at a time.</div>
+</div>
+</div>
+
+<!-- BRANDUS -->
+<div class="card b">
+  <h2 style="color:#4a90d9">⚔ Brandus — Paladin · Level 9</h2>
+  <div class="g3">
+    <div class="box">
+      <div class="C" style="font-size:.87rem;margin-bottom:7px">✨ Teleportation Circle</div>
+      <div id="wizStat" class="muted" style="font-size:.84rem;margin-bottom:7px">No wizard present.</div>
+      <div id="wizBar" style="display:none;margin-bottom:7px">
+        <div style="display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted)"><span>Wizard's Stay</span><span id="wizDLbl">14 days</span></div>
+        <div class="prog"><div class="pf pbl" id="wizFill" style="width:100%"></div></div>
+        <button class="btn bgh sm fw" style="margin-top:6px" onclick="wizCasts()">🔮 Wizard Casts Spell (Departs)</button>
+      </div>
+      <button class="btn bg fw" id="btnWiz" onclick="rollWizard()">🎲 Invite Spellcaster</button>
+      <div id="wizFb" class="fb"></div>
+    </div>
+
+    <div class="box">
+      <div class="C" style="font-size:.87rem;margin-bottom:7px">⛪ Sacristy</div>
+      <div id="sacStat" style="margin-bottom:6px"></div>
+      <div id="sacForm">
+        <label>Craft This Week</label>
+        <select id="sacChoice" onchange="sacChange()">
+          <option value="">Choose...</option>
+          <option value="hw">💧 Holy Water</option>
+          <option value="relic">📿 Relic</option>
+        </select>
+        <div id="hwOpts" style="display:none;margin-top:7px">
+          <label>Gold Invested (adds 1d8 per 100 GP · max 500)</label>
+          <select id="hwGold">
+            <option value="0">0 GP — base damage</option>
+            <option value="100">100 GP → +1d8</option>
+            <option value="200">200 GP → +2d8</option>
+            <option value="300">300 GP → +3d8</option>
+            <option value="400">400 GP → +4d8</option>
+            <option value="500">500 GP → +5d8 (max)</option>
+          </select>
+        </div>
+        <div id="relicOpts" style="display:none;margin-top:7px">
+          <label>Rarity</label>
+          <select id="relicRar" onchange="fillRelics()">
+            <option value="common">Common (5 days)</option>
+            <option value="uncommon">Uncommon (10 days)</option>
+          </select>
+          <label style="margin-top:5px">Relic</label>
+          <select id="relicSel"></select>
+          <label style="margin-top:5px">Crafting Cost (GP)</label>
+          <input type="number" id="relicCost" placeholder="From DMG crafting table..." min="0">
+        </div>
+        <button class="btn bg fw" onclick="startSacristy()" style="margin-top:8px">⚒ Begin Crafting</button>
+        <div id="sacFb" class="fb"></div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="C" style="font-size:.87rem;margin-bottom:7px">🏋 Training Area</div>
+      <div id="trainStat" class="muted" style="font-size:.82rem;margin-bottom:7px">No trainer selected this week.</div>
+      <label>Expert Trainer</label>
+      <select id="trainerSel" onchange="trainerChange()">
+        <option value="">Select trainer...</option>
+        <option value="battle">Battle Expert</option>
+        <option value="skills">Skills Expert</option>
+        <option value="tools">Tools Expert</option>
+        <option value="unarmed">Unarmed Combat Expert</option>
+        <option value="weapon">Weapon Expert</option>
+      </select>
+      <div id="trainerDRow" style="display:none;margin-top:5px">
+        <label id="trainerDLbl">Specify:</label>
+        <input type="text" id="trainerDInp" placeholder="Enter detail...">
+      </div>
+      <div id="trainerFb" class="fb on" style="font-size:.8rem;color:var(--muted)">Choose a trainer above.</div>
+      <button class="btn bg fw" onclick="confirmTrainer()" style="margin-top:6px">✓ Confirm Trainer</button>
+    </div>
+  </div>
+</div>
+
+<!-- THALRIC + XENA -->
+<div class="g2">
+<div class="card t">
+  <h2 style="color:#d94a4a">🪓 Thalric — Barbarian · Level 9</h2>
+  <div class="box">
+    <div class="C" style="font-size:.87rem;margin-bottom:5px">🏰 Vast Barrack <span class="tag tn">Auto-Recruits +4/week</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:.84rem;margin-bottom:3px"><span>Defenders</span><span class="gv" id="defLbl">4 / 25</span></div>
+    <div class="prog"><div class="pf pgrn" id="defBar" style="width:16%"></div></div>
+    <div class="muted" style="margin-top:4px">Recruits +4 each Bastion turn automatically until full.</div>
+  </div>
+  <div class="box">
+    <div class="C" style="font-size:.87rem;margin-bottom:5px">🛡 Armory <span class="tag tn">Auto-Stocks</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+      <span style="font-size:.86rem">Status:</span>
+      <span id="armStat" class="gn C">Stocked</span>
+    </div>
+    <div id="armCost" class="muted" style="font-size:.78rem;margin-bottom:8px"></div>
+    <button class="btn br sm fw" onclick="expendArmory()">⚔ Expend Armory (After Battle)</button>
+  </div>
+  <div class="box">
+    <div class="C" style="font-size:.87rem;margin-bottom:5px">⚒ Smithy <span class="tag tg">Craft Orders</span></div>
+    <div id="smithyStat" style="margin-bottom:6px"></div>
+    <div id="smithyForm">
+      <label>Craft Type</label>
+      <select id="smithyType" onchange="smithyTypeChange()">
+        <option value="">Choose...</option>
+        <option value="tools">🔨 Craft: Smith's Tools Item</option>
+        <option value="magic">✨ Craft: Magic Armament (Lvl 9+)</option>
+      </select>
+      <div id="smithyToolsOpts" style="display:none;margin-top:7px">
+        <label>Item Description</label>
+        <input type="text" id="smithyItemDesc" placeholder="e.g. Longsword, Plate Armor...">
+        <label style="margin-top:5px">Crafting Cost (GP)</label>
+        <input type="number" id="smithyToolsCost" placeholder="Per PHB crafting rules..." min="0">
+        <label style="margin-top:5px">Crafting Time (days)</label>
+        <input type="number" id="smithyToolsDays" placeholder="Per PHB crafting rules..." min="1">
+      </div>
+      <div id="smithyMagicOpts" style="display:none;margin-top:7px">
+        <label>Armament Name</label>
+        <input type="text" id="smithyMagicItem" placeholder="e.g. +1 Longsword, Flame Tongue...">
+        <label style="margin-top:5px">Crafting Cost (GP)</label>
+        <input type="number" id="smithyMagicCost" placeholder="From DMG crafting table..." min="0">
+        <label style="margin-top:5px">Crafting Time (days)</label>
+        <input type="number" id="smithyMagicDays" placeholder="From DMG crafting table..." min="1">
+      </div>
+      <button class="btn bg fw" onclick="startSmithy()" style="margin-top:8px">⚒ Begin Crafting</button>
+      <div id="smithyFb" class="fb"></div>
+    </div>
+  </div>
+</div>
+
+<div class="card x">
+  <h2 style="color:#9b59b6">🌟 Xena — Cleric · Level 9</h2>
+  <div class="box">
+    <div class="C" style="font-size:.87rem;margin-bottom:5px">📜 Scriptorium</div>
+    <div id="scrollStat" style="margin-bottom:7px"></div>
+    <div id="scrollForm">
+      <div class="row">
+        <div style="flex:2"><label>Spell Name</label><input type="text" id="scrollSpell" placeholder="e.g. Cure Wounds"></div>
+        <div><label>Level</label>
+          <select id="scrollLvl" onchange="updateScrollInfo()">
+            <option value="1">Lvl 1</option><option value="2">Lvl 2</option><option value="3">Lvl 3</option>
+          </select>
+        </div>
+      </div>
+      <div class="row" style="margin-top:4px">
+        <div><label>Cost (auto)</label><input id="scrollCostEl" readonly style="color:var(--gold2)" value="50 GP"></div>
+        <div><label>Days (auto)</label><input id="scrollDaysEl" readonly style="color:var(--gold2)" value="7 days"></div>
+      </div>
+      <button class="btn bg fw" onclick="startScroll()">📜 Begin Scribing</button>
+      <div id="scrollFb" class="fb"></div>
+    </div>
+  </div>
+  <div class="box">
+    <div class="C" style="font-size:.87rem;margin-bottom:5px">🌿 Vast Garden</div>
+    <div id="gardenModeLbl" style="margin-bottom:6px"></div>
+    <div id="gardenSwProg" style="display:none;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted)"><span>Switching Mode</span><span id="gardenSwLbl"></span></div>
+      <div class="prog"><div class="pf pbl" id="gardenSwFill" style="width:0%"></div></div>
+    </div>
+    <div id="gardenHarvest"></div>
+    <div id="gardenSwBtn"></div>
+    <div id="gardenInv" style="margin-top:10px"></div>
+  </div>
+</div>
+</div>
+
+<!-- VVV -->
+<div class="card v">
+  <h2 style="color:#d9a84a">🎭 Vini Volo Vinci</h2>
+  <div class="g3">
+    <div class="box"><div class="C" style="font-size:.87rem;margin-bottom:5px">🎭 Theatre</div><div class="muted">"We open in a week!" — VVV, every single week.</div></div>
+    <div class="box">
+      <div class="C" style="font-size:.87rem;margin-bottom:6px">🎰 Gaming Hall</div>
+      <button class="btn bg fw" onclick="rollGaming()">🎲 Roll d100</button>
+      <div id="gameFb" class="fb"></div>
+    </div>
+    <div class="box"><div class="C" style="font-size:.87rem;margin-bottom:5px">🍽 Rhizia Rising</div><div class="muted">Kitchen Network active — all important events within 10 miles, known creatures within 50 miles.</div></div>
+  </div>
+</div>
+
+<!-- INVENTORIES -->
+<div class="g2">
+  <div class="card">
+    <h2>⚗ Sacristy Inventory</h2>
+    <div style="margin-bottom:12px">
+      <div class="C" style="font-size:.7rem;color:var(--muted);margin-bottom:5px">HOLY WATER</div>
+      <div id="hwInv"><div class="muted">None on hand.</div></div>
+    </div>
+    <div>
+      <div class="C" style="font-size:.7rem;color:var(--muted);margin-bottom:5px">RELICS</div>
+      <div id="relInv"><div class="muted">None on hand.</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>📜 Scrolls on Hand</h2>
+    <div id="scrollInv"><div class="muted">None on hand.</div></div>
+  </div>
+</div>
+<div class="card t">
+  <h2>⚒ Smithy — Crafted Items</h2>
+  <div id="smithyInvEl"><div class="muted">No items crafted yet.</div></div>
+</div>
+
+<button class="end-btn" onclick="endWeek()">⚔️ &nbsp; End Week &amp; Advance &nbsp; ⚔️</button>
+
+<div class="card">
+  <h2>📜 Weekly Chronicle</h2>
+  <div style="overflow-x:auto"><div id="chronicle"><div class="muted" style="padding:20px;text-align:center">No weeks recorded yet.</div></div></div>
+</div>
+<div style="text-align:right;margin-bottom:20px">
+  <button class="btn bgh sm" onclick="if(confirm('Delete ALL Frostgarde data permanently?')){localStorage.removeItem('fg3');location.reload()}">⚠ Clear All Data</button>
+</div>
+</main>
+
+<script>
+// ═══════════ CONFIG ═══════════
+const ANIM=[
+  {n:'Camel',c:50,sl:1,sz:'Large'},{n:'Donkey/Mule',c:8,sl:.5,sz:'Medium'},
+  {n:'Draft Horse',c:50,sl:1,sz:'Large'},{n:'Elephant',c:200,sl:99,sz:'Huge'},
+  {n:'Mastiff',c:25,sl:.5,sz:'Medium'},{n:'Pony',c:30,sl:.5,sz:'Medium'},
+  {n:'Riding Horse',c:75,sl:1,sz:'Large'},{n:'Warhorse',c:400,sl:1,sz:'Large'}
+];
+const SCRL={1:{cost:50,days:7},2:{cost:250,days:14},3:{cost:500,days:28}};
+const TR={
+  battle:{n:'Battle Expert',e:'When hit by an attack, use a Reaction to reduce damage by 1d4.',d:false},
+  skills:{n:'Skills Expert',e:'Gain proficiency in one skill.',d:true,l:'Choose Skill (Acrobatics, Athletics, Performance, Sleight of Hand, or Stealth):'},
+  tools:{n:'Tools Expert',e:'Gain proficiency with one tool.',d:true,l:'Choose Tool:'},
+  unarmed:{n:'Unarmed Combat Expert',e:'Unarmed Strikes deal an extra 1d4 Bludgeoning damage.',d:false},
+  weapon:{n:'Weapon Expert',e:'Gain proficiency or use the Mastery property of a chosen weapon.',d:true,l:'Choose Weapon:'}
+};
+const CR=['Ear Horn of Hearing','Potion of Healing','Pot of Awakening','Ruby of the War Mage','Shield of Expression','Smoldering Armor','Spell Scroll (cantrip or level 1)','Staff of Adornment','Staff of Flowers'];
+const UR=["Enspelled Staff (cantrip or level 1)","Keoghtom's Ointment","Mariner's Armor","Nature's Mantle","Pearl of Power","Periapt of Health","Periapt of Wound Closure","Potion of Animal Friendship","Potion of Healing (greater)","Potion of Resistance","Ring of Water Walking","Sending Stones","Spell Scroll (level 2 or level 3)","Staff of the Adder","Staff of the Python","Wand of Magic Detection","Wand of the War Mage +1"];
+
+// ═══════════ STATE ═══════════
+function defS(){
+  return{week:1,bank:36954,bankLog:[],
+    animals:[],
+    shStock:0,shPending:0,
+    sacCraft:null,hwInv:[],relInv:[],
+    scrlCraft:null,scrlInv:[],
+    trainer:null,
+    defenders:4,armored:false,
+    smithyCraft:null,smithyInv:[],
+    gardenMode:'herb',gardenSwitch:0,
+    gInv:{hk:0,ph:0,at:0,bp:0},
+    wizDays:0,log:[]};
+}
+let S;
+try{const raw=localStorage.getItem('fg3');S=raw?JSON.parse(raw):defS();}catch{S=defS();}
+// Migration: add smithy fields if not present in older saves
+if(S.smithyCraft===undefined)S.smithyCraft=null;
+if(!S.smithyInv)S.smithyInv=[];
+
+// ── Smithy catch-up: simulate Weeks 1–5 of Saddle of the Cavalier crafting ──
+// Only applies on a fresh tracker (Week 1, no prior smithy activity)
+if(S.week===1&&!S.smithyCraft&&!S.smithyInv.length){
+  // Timeline:
+  //  Wk1 start : commission #1 (−200). End Wk1: armory stocks for 8 def (−450), smithy 3d left.
+  //  Wk2       : End Wk2: saddle #1 complete!
+  //  Wk3 start : commission #2 (−200). End Wk3: smithy 3d left.
+  //  Wk4       : End Wk4: saddle #2 complete!
+  //  Wk5 start : commission #3 (−200). End Wk5: smithy 3d left.
+  //  → Final bank: 36,954 − 1,050 = 35,904 GP
+  S.bank=35904;
+  S.bankLog=[
+    {w:5,amt:-200,bal:35904,note:'Smithy: commissioned Saddle of the Cavalier #3'},
+    {w:3,amt:-200,bal:36104,note:'Smithy: commissioned Saddle of the Cavalier #2'},
+    {w:1,amt:-450,bal:36304,note:'Armory: stocked for 8 defenders (end of Wk 1)'},
+    {w:1,amt:-200,bal:36754,note:'Smithy: commissioned Saddle of the Cavalier #1'}
+  ];
+  S.smithyInv=[
+    {type:'tools',item:'Saddle of the Cavalier'},
+    {type:'tools',item:'Saddle of the Cavalier'}
+  ];
+  S.smithyCraft={type:'tools',item:'Saddle of the Cavalier',cost:200,days:3,total:10};
+  S.defenders=24;
+  S.armored=true;
+  S.week=6;
+  S.log=[
+    {week:5,bank:35904,notes:['🏰 Barrack: +4 defenders recruited (now 24/25)','🛡 Armory: already stocked','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']},
+    {week:4,bank:36104,notes:['🏰 Barrack: +4 defenders recruited (now 20/25)','🛡 Armory: already stocked','⚒ Smithy: 🔨 Saddle of the Cavalier #2 completed!']},
+    {week:3,bank:36104,notes:['🏰 Barrack: +4 defenders recruited (now 16/25)','🛡 Armory: already stocked','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']},
+    {week:2,bank:36304,notes:['🏰 Barrack: +4 defenders recruited (now 12/25)','🛡 Armory: already stocked','⚒ Smithy: 🔨 Saddle of the Cavalier #1 completed!']},
+    {week:1,bank:36304,notes:['🏰 Barrack: +4 defenders recruited (now 8/25)','🛡 Armory: stocked (450 GP)','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']}
+  ];
+  try{localStorage.setItem('fg3',JSON.stringify(S));}catch{}
+}
+function save(){try{localStorage.setItem('fg3',JSON.stringify(S));}catch{}}
+
+// ═══════════ UTILITIES ═══════════
+let _uid=Date.now();
+function uid(){return _uid++;}
+function gp(n){return Math.round(n).toLocaleString()+' GP';}
+function d(sides){return Math.floor(Math.random()*sides)+1;}
+function dSum(n,s){let t=0;for(let i=0;i<n;i++)t+=d(s);return t;}
+function fb(id,msg,ok){const el=document.getElementById(id);if(!el)return;el.innerHTML=msg;el.style.color=ok===false?'var(--red)':ok===true?'var(--grn)':'var(--gold2)';el.classList.add('on');}
+
+// ═══════════ BANK ═══════════
+function addBank(amt,note){
+  S.bank+=amt;
+  S.bankLog.unshift({w:S.week,amt,bal:S.bank,note:note||'Adjustment'});
+  if(S.bankLog.length>60)S.bankLog.pop();
+}
+function adj(sign){
+  const amt=parseFloat(document.getElementById('adjAmt').value)||0;
+  if(!amt){alert('Enter an amount.');return;}
+  const note=document.getElementById('adjNote').value||'Manual adjustment';
+  addBank(sign*amt,note);
+  document.getElementById('adjAmt').value='';
+  document.getElementById('adjNote').value='';
+  save();renderBank();
+}
+function renderBank(){
+  document.getElementById('bankEl').textContent=gp(S.bank);
+  document.getElementById('bankEl').style.color=S.bank<0?'var(--red)':'var(--gold2)';
+  const rows=S.bankLog.slice(0,10).map(e=>
+    `<div style="display:flex;justify-content:space-between;font-size:.76rem;margin-bottom:3px;padding-bottom:3px;border-bottom:1px solid rgba(45,74,106,.3)">
+      <span style="color:${e.amt>=0?'var(--grn)':'var(--red)'};min-width:80px">${e.amt>=0?'+':''}${gp(e.amt)}</span>
+      <span class="muted" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 6px">${e.note}</span>
+      <span class="gv" style="min-width:90px;text-align:right">${gp(e.bal)}</span>
+    </div>`).join('');
+  document.getElementById('bankLog').innerHTML=rows||'<div class="muted">No transactions yet.</div>';
+}
+
+// ═══════════ STABLE ═══════════
+function initStable(){
+  const sel=document.getElementById('aniSel');
+  sel.innerHTML='<option value="">Select animal...</option>';
+  ANIM.forEach((a,i)=>sel.add(new Option(`${a.n} — ${gp(a.c)} (${a.sz})`,i)));
+}
+function slotsUsed(){return S.animals.reduce((t,a)=>t+(a.st!=='sold'?a.sl:0),0);}
+function orderAnimals(){
+  const idx=parseInt(document.getElementById('aniSel').value);
+  if(isNaN(idx)){fb('orderFb','Select an animal type.',false);return;}
+  const a=ANIM[idx];
+  if(a.sl>=99){fb('orderFb','⚠ Elephants (Huge) cannot be housed in the Vast Stable.',false);return;}
+  const qty=Math.max(1,parseInt(document.getElementById('aniQty').value)||1);
+  const need=a.sl*qty;
+  const used=slotsUsed();
+  if(used+need>6){fb('orderFb',`⚠ Not enough capacity! Used: ${used.toFixed(1)}/6 slots. Order needs: ${need.toFixed(1)} slots.`,false);return;}
+  const total=a.c*qty;
+  if(S.bank<total){fb('orderFb',`⚠ Insufficient funds (need ${gp(total)}).`,false);return;}
+  addBank(-total,`Stable: ordered ${qty}× ${a.n}`);
+  for(let i=0;i<qty;i++)S.animals.push({id:uid(),n:a.n,c:a.c,sl:a.sl,st:'ordered',wks:0});
+  save();renderStable();renderBank();
+  fb('orderFb',`✓ Ordered ${qty}× ${a.n} (${gp(total)} deducted). Arrives next week.`,true);
+}
+function renderStable(){
+  const used=slotsUsed();
+  const pct=Math.min(100,used/6*100);
+  document.getElementById('capLbl').textContent=`${used.toFixed(1)} / 6 slots`;
+  const fill=document.getElementById('capFill');
+  fill.style.width=pct+'%';
+  fill.style.background=used>=6?'var(--red)':'';
+  const active=S.animals.filter(a=>a.st!=='sold');
+  const el=document.getElementById('stableList');
+  if(!active.length){el.innerHTML='<div class="muted" style="padding:5px">No animals on order or in stable.</div>';return;}
+  el.innerHTML=`<table><thead><tr><th>Animal</th><th>Cost</th><th>Status</th><th>Sale Price</th></tr></thead><tbody>`+
+    active.map(a=>{
+      const ord=a.st==='ordered';
+      const bg=ord?'rgba(41,128,185,.1)':'rgba(39,174,96,.08)';
+      const status=ord?'📦 On Order — arrives next week':`🐴 In Stable — week ${a.wks+1} of 2`;
+      return `<tr style="background:${bg}"><td>${a.n}</td><td>${gp(a.c)}</td><td>${status}</td><td class="gn">${gp(Math.round(a.c*1.2))}</td></tr>`;
+    }).join('')+`</tbody></table>`;
+}
+
+// ═══════════ STOREHOUSE ═══════════
+function shBuy(){
+  if(S.bank<2000){fb('shFb','⚠ Insufficient funds.',false);return;}
+  addBank(-2000,'Storehouse: bought 2,000 GP of trade goods');
+  S.shStock++;save();renderStorehouse();renderBank();
+  fb('shFb',`✓ 1 lot purchased. Stock: ${S.shStock} lot(s).`,true);
+}
+function shSell(){
+  if(!S.shStock){fb('shFb','⚠ No stock to sell.',false);return;}
+  if(S.shPending){fb('shFb','⚠ A sale is already pending for next week.',false);return;}
+  S.shStock--;S.shPending=2400;save();renderStorehouse();
+  fb('shFb','✓ Sale order placed. 2,400 GP arrives at the start of next week.',true);
+}
+function renderStorehouse(){
+  document.getElementById('stockEl').textContent=`${S.shStock} lot${S.shStock!==1?'s':''}`;
+  document.getElementById('pendingEl').innerHTML=S.shPending?`<span class="gn">+${gp(S.shPending)} incoming next week</span>`:'—';
+  document.getElementById('btnSell').disabled=!S.shStock||!!S.shPending;
+}
+
+// ═══════════ TELEPORTATION CIRCLE ═══════════
+function rollWizard(){
+  if(S.wizDays>0){fb('wizFb','A wizard is already present!',false);return;}
+  const roll=d(20);const even=roll%2===0;
+  if(even){S.wizDays=14;}
+  save();renderWizard();
+  fb('wizFb',even?`Rolled ${roll} (even) — ✅ A wizard arrives! They will stay for 14 days.`:`Rolled ${roll} (odd) — ❌ The invitation is declined.`,even);
+}
+function wizCasts(){
+  if(!confirm('Mark wizard as departed after casting?'))return;
+  S.wizDays=0;save();renderWizard();
+  fb('wizFb','The wizard has cast their spell and departed.',false);
+}
+function renderWizard(){
+  const p=S.wizDays>0;
+  document.getElementById('wizStat').textContent=p?`✅ Wizard present — ${S.wizDays} day${S.wizDays!==1?'s':''} remaining.`:'No wizard present.';
+  document.getElementById('wizStat').style.color=p?'var(--grn)':'var(--muted)';
+  document.getElementById('wizBar').style.display=p?'block':'none';
+  document.getElementById('btnWiz').disabled=p;
+  if(p){
+    document.getElementById('wizDLbl').textContent=`${S.wizDays} days`;
+    document.getElementById('wizFill').style.width=(S.wizDays/14*100)+'%';
+  }
+}
+
+// ═══════════ SACRISTY ═══════════
+function sacChange(){
+  const v=document.getElementById('sacChoice').value;
+  document.getElementById('hwOpts').style.display=v==='hw'?'block':'none';
+  document.getElementById('relicOpts').style.display=v==='relic'?'block':'none';
+  if(v==='relic')fillRelics();
+}
+function fillRelics(){
+  const sel=document.getElementById('relicSel');sel.innerHTML='';
+  (document.getElementById('relicRar').value==='common'?CR:UR).forEach(r=>sel.add(new Option(r,r)));
+}
+function startSacristy(){
+  if(S.sacCraft){fb('sacFb','Sacristy is busy. Wait for current craft to complete.',false);return;}
+  const ch=document.getElementById('sacChoice').value;
+  if(!ch){fb('sacFb','Choose what to craft.',false);return;}
+  if(ch==='hw'){
+    const gld=parseInt(document.getElementById('hwGold').value)||0;
+    if(gld>0&&S.bank<gld){fb('sacFb',`⚠ Insufficient funds (need ${gp(gld)}).`,false);return;}
+    if(gld>0)addBank(-gld,`Sacristy: Holy Water investment (${gp(gld)})`);
+    S.sacCraft={type:'hw',gld,days:7,total:7};
+    fb('sacFb',`✓ Crafting Holy Water${gld?` (+${gld/100}d8 damage)`:''}. Ready in 7 days.`,true);
+  } else {
+    const name=document.getElementById('relicSel').value;
+    const rar=document.getElementById('relicRar').value;
+    const cost=parseInt(document.getElementById('relicCost').value)||0;
+    if(!name){fb('sacFb','Select a relic.',false);return;}
+    if(cost>0&&S.bank<cost){fb('sacFb',`⚠ Insufficient funds (need ${gp(cost)}).`,false);return;}
+    if(cost>0)addBank(-cost,`Sacristy: crafting ${name}`);
+    const days=rar==='common'?5:10;
+    S.sacCraft={type:'relic',name,rar,cost,days,total:days};
+    fb('sacFb',`✓ Crafting ${name} (${rar}, ${days} days).`,true);
+  }
+  save();renderSacristy();renderBank();
+}
+function renderSacristy(){
+  const busy=!!S.sacCraft;
+  document.getElementById('sacForm').style.display=busy?'none':'block';
+  const st=document.getElementById('sacStat');
+  if(!busy){st.innerHTML='';return;}
+  const c=S.sacCraft;
+  const pct=Math.max(0,(c.total-c.days)/c.total*100);
+  const label=c.type==='hw'?`Holy Water${c.gld?` (+${c.gld/100}d8)`:''}`:c.name;
+  st.innerHTML=`<div style="font-size:.82rem;color:var(--gold2);margin-bottom:5px">Crafting: <strong>${label}</strong></div>
+    <div style="display:flex;justify-content:space-between;font-size:.73rem;color:var(--muted)"><span>Progress</span><span>${c.days} day${c.days!==1?'s':''} remaining</span></div>
+    <div class="prog"><div class="pf pg" style="width:${pct}%"></div></div>`;
+}
+
+// ═══════════ SCRIPTORIUM ═══════════
+function updateScrollInfo(){
+  const l=parseInt(document.getElementById('scrollLvl').value)||1;
+  document.getElementById('scrollCostEl').value=gp(SCRL[l].cost);
+  document.getElementById('scrollDaysEl').value=`${SCRL[l].days} days`;
+}
+function startScroll(){
+  if(S.scrlCraft){fb('scrollFb','Scriptorium is already scribing a scroll.',false);return;}
+  const spell=document.getElementById('scrollSpell').value.trim();
+  if(!spell){fb('scrollFb','Enter the spell name.',false);return;}
+  const l=parseInt(document.getElementById('scrollLvl').value)||1;
+  const cost=SCRL[l].cost;const days=SCRL[l].days;
+  if(S.bank<cost){fb('scrollFb',`⚠ Insufficient funds (need ${gp(cost)}).`,false);return;}
+  addBank(-cost,`Scriptorium: scribing ${spell} (Lvl ${l})`);
+  S.scrlCraft={spell,lvl:l,cost,days,total:days};
+  save();renderScriptorium();renderBank();
+  fb('scrollFb',`✓ Scribing ${spell} (Lvl ${l}). ${days} days to complete.`,true);
+}
+function renderScriptorium(){
+  const busy=!!S.scrlCraft;
+  document.getElementById('scrollForm').style.display=busy?'none':'block';
+  const st=document.getElementById('scrollStat');
+  if(!busy){st.innerHTML='';return;}
+  const c=S.scrlCraft;const pct=Math.max(0,(c.total-c.days)/c.total*100);
+  st.innerHTML=`<div style="font-size:.82rem;color:var(--gold2);margin-bottom:5px">Scribing: <strong>${c.spell}</strong> (Level ${c.lvl})</div>
+    <div style="display:flex;justify-content:space-between;font-size:.73rem;color:var(--muted)"><span>Progress</span><span>${c.days} day${c.days!==1?'s':''} remaining</span></div>
+    <div class="prog"><div class="pf pbl" style="width:${pct}%"></div></div>`;
+}
+
+// ═══════════ TRAINING AREA ═══════════
+function trainerChange(){
+  const v=document.getElementById('trainerSel').value;
+  if(!v){document.getElementById('trainerDRow').style.display='none';fb('trainerFb','Choose a trainer above.');document.getElementById('trainerFb').style.color='var(--muted)';return;}
+  const t=TR[v];
+  document.getElementById('trainerDRow').style.display=t.d?'block':'none';
+  if(t.d){document.getElementById('trainerDLbl').textContent=t.l;document.getElementById('trainerDInp').value='';}
+  document.getElementById('trainerFb').innerHTML=`<strong>${t.n}:</strong> ${t.e}`;
+  document.getElementById('trainerFb').style.color='var(--gold2)';
+}
+function confirmTrainer(){
+  const v=document.getElementById('trainerSel').value;
+  if(!v){fb('trainerFb','Select a trainer first.',false);return;}
+  const t=TR[v];const detail=t.d?document.getElementById('trainerDInp').value.trim():'';
+  if(t.d&&!detail){fb('trainerFb','Please specify the detail (skill/tool/weapon).',false);return;}
+  S.trainer={id:v,name:t.n,effect:t.e+(detail?' ('+detail+')':'')};
+  save();renderTrainer();
+  fb('trainerFb','✓ '+S.trainer.name+' confirmed for this week.',true);
+}
+function renderTrainer(){
+  const st=document.getElementById('trainStat');
+  if(S.trainer)st.innerHTML=`<span style="color:var(--gold2)">✓ ${S.trainer.name}</span><br><span class="muted">${S.trainer.effect}</span>`;
+  else st.textContent='No trainer selected this week.';
+}
+
+// ═══════════ DEFENDERS + ARMORY ═══════════
+function expendArmory(){
+  if(!confirm('Expend all armory stock? Do this after a battle.'))return;
+  S.armored=false;save();renderDefenders();
+}
+function renderDefenders(){
+  document.getElementById('defLbl').textContent=`${S.defenders} / 25`;
+  document.getElementById('defBar').style.width=(S.defenders/25*100)+'%';
+  const cost=50+50*S.defenders;
+  document.getElementById('armStat').textContent=S.armored?'Stocked':'Empty';
+  document.getElementById('armStat').style.color=S.armored?'var(--grn)':'var(--red)';
+  document.getElementById('armCost').textContent=S.armored
+    ?`Currently stocked. Cost was ${gp(cost)} for ${S.defenders} defenders.`
+    :`Will auto-stock on End Week for ${gp(cost)} (${S.defenders} defenders × 50 GP + 50 GP base).`;
+}
+
+// ═══════════ SMITHY ═══════════
+function smithyTypeChange(){
+  const v=document.getElementById('smithyType').value;
+  document.getElementById('smithyToolsOpts').style.display=v==='tools'?'block':'none';
+  document.getElementById('smithyMagicOpts').style.display=v==='magic'?'block':'none';
+}
+function startSmithy(){
+  if(S.smithyCraft){fb('smithyFb','Smithy is busy. Wait for current craft to complete.',false);return;}
+  const type=document.getElementById('smithyType').value;
+  if(!type){fb('smithyFb','Choose a craft type.',false);return;}
+  if(type==='tools'){
+    const item=document.getElementById('smithyItemDesc').value.trim();
+    const cost=parseInt(document.getElementById('smithyToolsCost').value)||0;
+    const days=parseInt(document.getElementById('smithyToolsDays').value)||0;
+    if(!item){fb('smithyFb','Enter item description.',false);return;}
+    if(!days||days<1){fb('smithyFb','Enter crafting time in days.',false);return;}
+    if(cost>0&&S.bank<cost){fb('smithyFb',`⚠ Insufficient funds (need ${gp(cost)}).`,false);return;}
+    if(cost>0)addBank(-cost,`Smithy: crafting ${item}`);
+    S.smithyCraft={type:'tools',item,cost,days,total:days};
+    fb('smithyFb',`✓ Crafting ${item}. ${days} days to complete.`,true);
+  } else {
+    const item=document.getElementById('smithyMagicItem').value.trim();
+    const cost=parseInt(document.getElementById('smithyMagicCost').value)||0;
+    const days=parseInt(document.getElementById('smithyMagicDays').value)||0;
+    if(!item){fb('smithyFb','Enter armament name.',false);return;}
+    if(!days||days<1){fb('smithyFb','Enter crafting time in days.',false);return;}
+    if(cost>0&&S.bank<cost){fb('smithyFb',`⚠ Insufficient funds (need ${gp(cost)}).`,false);return;}
+    if(cost>0)addBank(-cost,`Smithy: crafting magic armament — ${item}`);
+    S.smithyCraft={type:'magic',item,cost,days,total:days};
+    fb('smithyFb',`✓ Commissioning ${item}. ${days} days to complete.`,true);
+  }
+  save();renderSmithy();renderBank();
+}
+function renderSmithy(){
+  const busy=!!S.smithyCraft;
+  document.getElementById('smithyForm').style.display=busy?'none':'block';
+  const st=document.getElementById('smithyStat');
+  if(!busy){st.innerHTML='';return;}
+  const c=S.smithyCraft;
+  const pct=Math.max(0,(c.total-c.days)/c.total*100);
+  const ico=c.type==='magic'?'✨':'🔨';
+  st.innerHTML=`<div style="font-size:.82rem;color:var(--gold2);margin-bottom:5px">${ico} Crafting: <strong>${c.item}</strong>${c.type==='magic'?' <span class="tag tg">Magic Armament</span>':''}</div>
+    <div style="display:flex;justify-content:space-between;font-size:.73rem;color:var(--muted)"><span>Progress</span><span>${c.days} day${c.days!==1?'s':''} remaining</span></div>
+    <div class="prog"><div class="pf pg" style="width:${pct}%"></div></div>`;
+}
+function renderSmithyInv(){
+  const el=document.getElementById('smithyInvEl');
+  if(!S.smithyInv||!S.smithyInv.length){el.innerHTML='<div class="muted">No items crafted yet.</div>';return;}
+  el.innerHTML=S.smithyInv.map((it,i)=>`<div class="ir">
+    <span>${it.type==='magic'?'✨':'🔨'} ${it.item}${it.type==='magic'?' <span class="tag tg">Magic Armament</span>':' <span class="tag tb">Smith\'s Tools</span>'}</span>
+    <button class="btn br sm" onclick="S.smithyInv.splice(${i},1);save();renderSmithyInv()">Remove</button>
+  </div>`).join('');
+}
+
+// ═══════════ GARDEN ═══════════
+function startGardenSwitch(){
+  if(S.gardenSwitch>0)return;
+  const target=S.gardenMode==='herb'?'Poison':'Herb';
+  if(!confirm(`Switch garden to ${target} mode? The garden will be unavailable for 21 days (3 Bastion turns).`))return;
+  S.gardenSwitch=21;save();renderGarden();
+}
+function harvestGarden(ch){
+  if(S.gardenSwitch>0)return;
+  if(ch==='hk')S.gInv.hk+=10;
+  else if(ch==='ph')S.gInv.ph+=1;
+  else if(ch==='at')S.gInv.at+=2;
+  else if(ch==='bp')S.gInv.bp+=1;
+  save();renderGarden();
+}
+function useGItem(k,n){if(S.gInv[k]>=n){S.gInv[k]-=n;save();renderGarden();}}
+function renderGarden(){
+  const sw=S.gardenSwitch>0;const mode=S.gardenMode;
+  document.getElementById('gardenModeLbl').innerHTML=`Mode: <strong style="color:${mode==='herb'?'var(--grn)':'var(--red)'}">${mode==='herb'?'🌿 Herb':'☠ Poison'}</strong>${sw?' <span class="tag tb">Switching...</span>':''}`;
+  document.getElementById('gardenSwProg').style.display=sw?'block':'none';
+  if(sw){
+    document.getElementById('gardenSwLbl').textContent=`${S.gardenSwitch} days left`;
+    document.getElementById('gardenSwFill').style.width=((21-S.gardenSwitch)/21*100)+'%';
+  }
+  const hEl=document.getElementById('gardenHarvest');
+  const swEl=document.getElementById('gardenSwBtn');
+  if(sw){
+    hEl.innerHTML='<div class="muted">Garden unavailable during mode switch.</div>';
+    swEl.innerHTML='';
+  } else if(mode==='herb'){
+    hEl.innerHTML='<div class="row"><button class="btn bg" style="flex:1" onclick="harvestGarden(\'hk\')">🩹 Harvest 10 Healer\'s Kits</button><button class="btn bg" style="flex:1" onclick="harvestGarden(\'ph\')">❤️ Harvest 1 Potion of Healing</button></div>';
+    swEl.innerHTML='<button class="btn bgh sm fw" style="margin-top:5px" onclick="startGardenSwitch()">🔄 Switch to Poison Mode (21 days)</button>';
+  } else {
+    hEl.innerHTML='<div class="row"><button class="btn bg" style="flex:1" onclick="harvestGarden(\'at\')">💚 Harvest 2 Antitoxin Vials</button><button class="btn bg" style="flex:1" onclick="harvestGarden(\'bp\')">☠ Harvest 1 Basic Poison Vial</button></div>';
+    swEl.innerHTML='<button class="btn bgh sm fw" style="margin-top:5px" onclick="startGardenSwitch()">🔄 Switch to Herb Mode (21 days)</button>';
+  }
+  const g=S.gInv;
+  const items=[{k:'hk',n:"Healer's Kits",ico:'🩹',use:1},{k:'ph',n:'Potions of Healing',ico:'❤️',use:1},{k:'at',n:'Antitoxin Vials',ico:'💚',use:1},{k:'bp',n:'Basic Poison Vials',ico:'☠',use:1}];
+  document.getElementById('gardenInv').innerHTML='<div class="C" style="font-size:.7rem;color:var(--muted);margin-bottom:5px">GARDEN STORES</div>'+
+    items.map(i=>`<div class="ir"><span>${i.ico} ${i.n}</span><span style="display:flex;align-items:center;gap:8px"><strong class="gv">${g[i.k]}</strong><button class="btn br sm" onclick="useGItem('${i.k}',${i.use})" ${g[i.k]<i.use?'disabled':''}>Use 1</button></span></div>`).join('');
+}
+
+// ═══════════ GAMING HALL ═══════════
+function rollGaming(){
+  const r=d(100);let winnings,label,color;
+  if(r<=50){winnings=d(6)*10;label=`d100: ${r} → Tier 1 (01–50) → ${gp(winnings)}`;color='var(--muted)';}
+  else if(r<=85){winnings=dSum(2,6)*10;label=`d100: ${r} → Tier 2 (51–85) → ${gp(winnings)}`;color='var(--gold)';}
+  else if(r<=95){winnings=dSum(4,6)*10;label=`d100: ${r} → Tier 3 (86–95) → ${gp(winnings)}`;color='var(--org)';}
+  else{winnings=dSum(10,6)*10;label=`d100: ${r} → 💥 JACKPOT (96–00) → ${gp(winnings)}`;color='var(--red)';}
+  addBank(winnings,'Gaming Hall winnings');
+  save();renderBank();
+  const el=document.getElementById('gameFb');
+  el.innerHTML=`<span style="color:${color}">${label}</span>`;el.classList.add('on');
+}
+
+// ═══════════ INVENTORIES ═══════════
+function renderInv(){
+  const hw=document.getElementById('hwInv');
+  hw.innerHTML=S.hwInv.length?S.hwInv.map((w,i)=>`<div class="ir"><span>💧 ${w.label}</span><button class="btn br sm" onclick="S.hwInv.splice(${i},1);save();renderInv()">Use</button></div>`).join(''):'<div class="muted">None on hand.</div>';
+  const ri=document.getElementById('relInv');
+  ri.innerHTML=S.relInv.length?S.relInv.map((r,i)=>`<div class="ir"><span>📿 ${r.name} <span class="tag ${r.rar==='common'?'tg':'tb'}">${r.rar}</span></span><button class="btn br sm" onclick="S.relInv.splice(${i},1);save();renderInv()">Use</button></div>`).join(''):'<div class="muted">None on hand.</div>';
+  const si=document.getElementById('scrollInv');
+  si.innerHTML=S.scrlInv.length?S.scrlInv.map((sc,i)=>`<div class="ir"><span>📜 ${sc.spell} <span class="tag tb">Level ${sc.lvl}</span></span><button class="btn br sm" onclick="S.scrlInv.splice(${i},1);save();renderInv()">Use</button></div>`).join(''):'<div class="muted">None on hand.</div>';
+}
+
+// ═══════════ END WEEK ═══════════
+function endWeek(){
+  if(!confirm(`End Week ${S.week} and advance?`))return;
+  const notes=[];
+
+  // Storehouse pending sale resolves
+  if(S.shPending){addBank(S.shPending,'Storehouse sale proceeds received');notes.push(`📦 Storehouse: +${gp(S.shPending)} sale received`);S.shPending=0;}
+
+  // Stable: sell mature animals first, advance timers, arrive new orders
+  const mature=S.animals.filter(a=>a.st==='stable'&&a.wks>=1);
+  mature.forEach(a=>{a.wks++;});
+  const toSell=S.animals.filter(a=>a.st==='stable'&&a.wks>=2);
+  toSell.forEach(a=>{const sp=Math.round(a.c*1.2);addBank(sp,`Stable: auto-sold ${a.n}`);notes.push(`🐴 Stable: sold ${a.n} for ${gp(sp)}`);a.st='sold';});
+  S.animals.filter(a=>a.st==='stable'&&a.wks<2).forEach(a=>a.wks++);
+  S.animals=S.animals.filter(a=>a.st!=='sold');
+
+  // Arrive ordered animals (check capacity)
+  const stableUsed=S.animals.filter(a=>a.st==='stable').reduce((t,a)=>t+a.sl,0);
+  let slots=stableUsed;
+  S.animals.filter(a=>a.st==='ordered').forEach(a=>{
+    if(slots+a.sl<=6){a.st='stable';a.wks=0;slots+=a.sl;notes.push(`🐴 Stable: ${a.n} arrived`);}
+    else{addBank(a.c,`Stable overflow: ${a.n} returned`);a.st='sold';notes.push(`⚠ Stable full! ${a.n} could not enter — cost refunded`);}
+  });
+  S.animals=S.animals.filter(a=>a.st!=='sold');
+
+  // Barrack auto-recruit
+  if(S.defenders<25){const add=Math.min(4,25-S.defenders);S.defenders+=add;notes.push(`🏰 Barrack: +${add} defenders recruited (now ${S.defenders}/25)`);}
+  else notes.push('🏰 Barrack: full (25/25)');
+
+  // Armory auto-stock
+  if(!S.armored){const cost=50+50*S.defenders;if(S.bank>=cost){addBank(-cost,`Armory: stocked for ${S.defenders} defenders`);S.armored=true;notes.push(`🛡 Armory: stocked (${gp(cost)})`);}else notes.push(`⚠ Armory: insufficient funds to stock (needed ${gp(cost)})`);}
+  else notes.push('🛡 Armory: already stocked');
+
+  // Scriptorium countdown
+  if(S.scrlCraft){S.scrlCraft.days-=7;if(S.scrlCraft.days<=0){S.scrlInv.push({spell:S.scrlCraft.spell,lvl:S.scrlCraft.lvl});notes.push(`📜 Scriptorium: ${S.scrlCraft.spell} (Lv ${S.scrlCraft.lvl}) completed!`);S.scrlCraft=null;}else notes.push(`📜 Scriptorium: ${S.scrlCraft.days} days remaining on ${S.scrlCraft.spell}`);}
+
+  // Sacristy countdown
+  if(S.sacCraft){S.sacCraft.days-=7;if(S.sacCraft.days<=0){
+    if(S.sacCraft.type==='hw'){const lbl=S.sacCraft.gld?`+${S.sacCraft.gld/100}d8 damage`:'base damage';S.hwInv.push({label:`Holy Water (${lbl})`,gld:S.sacCraft.gld});notes.push(`⛪ Sacristy: Holy Water crafted!`);}
+    else{S.relInv.push({name:S.sacCraft.name,rar:S.sacCraft.rar});notes.push(`⛪ Sacristy: ${S.sacCraft.name} completed!`);}
+    S.sacCraft=null;
+  } else notes.push(`⛪ Sacristy: ${S.sacCraft.days} days remaining`);}
+
+  // Garden mode switch
+  if(S.gardenSwitch>0){S.gardenSwitch=Math.max(0,S.gardenSwitch-7);if(S.gardenSwitch===0){S.gardenMode=S.gardenMode==='herb'?'poison':'herb';notes.push(`🌿 Garden: switched to ${S.gardenMode} mode!`);}else notes.push(`🌿 Garden: mode switch — ${S.gardenSwitch} days left`);}
+
+  // Wizard timer
+  if(S.wizDays>0){S.wizDays=Math.max(0,S.wizDays-7);if(S.wizDays===0)notes.push('✨ Teleport Circle: wizard has departed (stay expired).');else notes.push(`✨ Teleport Circle: wizard stays ${S.wizDays} more days`);}
+
+  // Smithy countdown
+  if(S.smithyCraft){S.smithyCraft.days-=7;if(S.smithyCraft.days<=0){
+    const ico=S.smithyCraft.type==='magic'?'✨':'🔨';
+    S.smithyInv.push({type:S.smithyCraft.type,item:S.smithyCraft.item});
+    notes.push(`⚒ Smithy: ${ico} ${S.smithyCraft.item} completed!`);
+    S.smithyCraft=null;
+  } else notes.push(`⚒ Smithy: ${S.smithyCraft.days} days remaining on ${S.smithyCraft.item}`);}
+
+  // Log & advance
+  S.log.unshift({week:S.week,bank:S.bank,notes:[...notes]});
+  if(S.trainer)notes.push(`🏋 Training: ${S.trainer.name} (benefit expires this week)`);
+  S.trainer=null;
+  S.week++;
+  save();render();
+}
+
+// ═══════════ CHRONICLE ═══════════
+function renderLog(){
+  const el=document.getElementById('chronicle');
+  if(!S.log.length){el.innerHTML='<div class="muted" style="padding:20px;text-align:center">No weeks recorded yet.</div>';return;}
+  el.innerHTML=`<table><thead><tr><th>Week</th><th>Bank Balance</th><th>Events This Week</th></tr></thead><tbody>`+
+    S.log.map(e=>`<tr><td class="gv C" style="white-space:nowrap">Wk ${e.week}</td><td class="gn" style="white-space:nowrap">${gp(e.bank)}</td><td style="font-size:.8rem;line-height:1.6">${e.notes.join('<br>')}</td></tr>`).join('')+`</tbody></table>`;
+}
+
+// ═══════════ RENDER ALL ═══════════
+function render(){
+  document.getElementById('wkBadge').textContent=`Week ${S.week}`;
+  renderBank();renderStable();renderStorehouse();renderWizard();
+  renderSacristy();renderScriptorium();renderTrainer();
+  renderDefenders();renderSmithy();renderSmithyInv();renderGarden();renderInv();renderLog();
+}
+
+// ═══════════ INIT ═══════════
+initStable();updateScrollInfo();fillRelics();render();
+</script>
+</body>
+</html>
