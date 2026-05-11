@@ -382,7 +382,20 @@ function defS(){
     wizDays:0,log:[]};
 }
 let S=defS();
-function migrate(s){if(s.smithyCraft===undefined)s.smithyCraft=null;if(!s.smithyInv)s.smithyInv=[];return s;}
+function migrate(s){
+  if(!s.animals)s.animals=[];
+  if(!s.bankLog)s.bankLog=[];
+  if(!s.hwInv)s.hwInv=[];
+  if(!s.relInv)s.relInv=[];
+  if(!s.scrlInv)s.scrlInv=[];
+  if(!s.smithyInv)s.smithyInv=[];
+  if(!s.log)s.log=[];
+  if(!s.gInv)s.gInv={hk:0,ph:0,at:0,bp:0};
+  if(s.smithyCraft===undefined)s.smithyCraft=null;
+  if(s.sacCraft===undefined)s.sacCraft=null;
+  if(s.scrlCraft===undefined)s.scrlCraft=null;
+  return s;
+}
 
 function save(){stateRef.set(S);}
 
