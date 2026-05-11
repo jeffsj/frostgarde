@@ -55,9 +55,11 @@ tr:last-child td{border-bottom:none}
 .end-btn{background:linear-gradient(135deg,#922b21,#c0392b);color:#fff;border:none;border-radius:10px;padding:16px;font-family:'Cinzel',serif;font-size:1rem;font-weight:700;cursor:pointer;width:100%;letter-spacing:3px;text-transform:uppercase;transition:all .22s;margin:16px 0}
 .end-btn:hover{background:linear-gradient(135deg,#c0392b,#e74c3c);transform:translateY(-2px);box-shadow:0 8px 28px rgba(192,57,43,.4)}
 ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;font-family:'Cinzel',serif;color:var(--gold2);font-size:1.2rem;letter-spacing:3px}
 </style>
 </head>
 <body>
+<div id="loading">❄ Connecting... ❄</div>
 <header>
   <h1>❄️ Frostgarde ❄️</h1>
   <p>Bastion of Brandus · Thalric · Xena · Vini Volo Vinci</p>
@@ -325,11 +327,28 @@ tr:last-child td{border-bottom:none}
   <div style="overflow-x:auto"><div id="chronicle"><div class="muted" style="padding:20px;text-align:center">No weeks recorded yet.</div></div></div>
 </div>
 <div style="text-align:right;margin-bottom:20px">
-  <button class="btn bgh sm" onclick="if(confirm('Delete ALL Frostgarde data permanently?')){localStorage.removeItem('fg3');location.reload()}">⚠ Clear All Data</button>
+  <button class="btn bgh sm" onclick="if(confirm('Delete ALL Frostgarde data permanently?')){stateRef.remove().then(()=>location.reload())}">⚠ Clear All Data</button>
 </div>
 </main>
 
+<!-- ═══ Firebase SDK (compat — works with inline onclick handlers) ═══ -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
 <script>
+// ═══════════ FIREBASE — paste your project config here ═══════════
+firebase.initializeApp({
+  apiKey:            "AIzaSyAiiAXur0adDvGr9cCFEGuufqvagFm_90c",
+  authDomain:        "frostgarde-6294b.firebaseapp.com",
+  databaseURL:       "https://frostgarde-6294b-default-rtdb.firebaseio.com",
+  projectId:         "frostgarde-6294b",
+  storageBucket:     "frostgarde-6294b.firebasestorage.app",
+  messagingSenderId: "701153483664",
+  appId:             "1:701153483664:web:a97134b50981d2697c3115"
+});
+const db = firebase.database();
+const stateRef = db.ref('frostgarde');
+
 // ═══════════ CONFIG ═══════════
 const ANIM=[
   {n:'Camel',c:50,sl:1,sz:'Large'},{n:'Donkey/Mule',c:8,sl:.5,sz:'Medium'},
@@ -362,47 +381,10 @@ function defS(){
     gInv:{hk:0,ph:0,at:0,bp:0},
     wizDays:0,log:[]};
 }
-let S;
-try{const raw=localStorage.getItem('fg3');S=raw?JSON.parse(raw):defS();}catch{S=defS();}
-// Migration: add smithy fields if not present in older saves
-if(S.smithyCraft===undefined)S.smithyCraft=null;
-if(!S.smithyInv)S.smithyInv=[];
+let S=defS();
+function migrate(s){if(s.smithyCraft===undefined)s.smithyCraft=null;if(!s.smithyInv)s.smithyInv=[];return s;}
 
-// ── Smithy catch-up: simulate Weeks 1–5 of Saddle of the Cavalier crafting ──
-// Only applies on a fresh tracker (Week 1, no prior smithy activity)
-if(S.week===1&&!S.smithyCraft&&!S.smithyInv.length){
-  // Timeline:
-  //  Wk1 start : commission #1 (−200). End Wk1: armory stocks for 8 def (−450), smithy 3d left.
-  //  Wk2       : End Wk2: saddle #1 complete!
-  //  Wk3 start : commission #2 (−200). End Wk3: smithy 3d left.
-  //  Wk4       : End Wk4: saddle #2 complete!
-  //  Wk5 start : commission #3 (−200). End Wk5: smithy 3d left.
-  //  → Final bank: 36,954 − 1,050 = 35,904 GP
-  S.bank=35904;
-  S.bankLog=[
-    {w:5,amt:-200,bal:35904,note:'Smithy: commissioned Saddle of the Cavalier #3'},
-    {w:3,amt:-200,bal:36104,note:'Smithy: commissioned Saddle of the Cavalier #2'},
-    {w:1,amt:-450,bal:36304,note:'Armory: stocked for 8 defenders (end of Wk 1)'},
-    {w:1,amt:-200,bal:36754,note:'Smithy: commissioned Saddle of the Cavalier #1'}
-  ];
-  S.smithyInv=[
-    {type:'tools',item:'Saddle of the Cavalier'},
-    {type:'tools',item:'Saddle of the Cavalier'}
-  ];
-  S.smithyCraft={type:'tools',item:'Saddle of the Cavalier',cost:200,days:3,total:10};
-  S.defenders=24;
-  S.armored=true;
-  S.week=6;
-  S.log=[
-    {week:5,bank:35904,notes:['🏰 Barrack: +4 defenders recruited (now 24/25)','🛡 Armory: already stocked','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']},
-    {week:4,bank:36104,notes:['🏰 Barrack: +4 defenders recruited (now 20/25)','🛡 Armory: already stocked','⚒ Smithy: 🔨 Saddle of the Cavalier #2 completed!']},
-    {week:3,bank:36104,notes:['🏰 Barrack: +4 defenders recruited (now 16/25)','🛡 Armory: already stocked','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']},
-    {week:2,bank:36304,notes:['🏰 Barrack: +4 defenders recruited (now 12/25)','🛡 Armory: already stocked','⚒ Smithy: 🔨 Saddle of the Cavalier #1 completed!']},
-    {week:1,bank:36304,notes:['🏰 Barrack: +4 defenders recruited (now 8/25)','🛡 Armory: stocked (450 GP)','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']}
-  ];
-  try{localStorage.setItem('fg3',JSON.stringify(S));}catch{}
-}
-function save(){try{localStorage.setItem('fg3',JSON.stringify(S));}catch{}}
+function save(){stateRef.set(S);}
 
 // ═══════════ UTILITIES ═══════════
 let _uid=Date.now();
@@ -843,7 +825,41 @@ function render(){
 }
 
 // ═══════════ INIT ═══════════
-initStable();updateScrollInfo();fillRelics();render();
+initStable();updateScrollInfo();fillRelics();
+
+// ── Bootstrap: seed from localStorage on first-ever load, then sync in real-time ──
+stateRef.once('value').then(function(snap){
+  if(!snap.val()){
+    // Database is empty — migrate existing localStorage save, or use catch-up defaults
+    try{const raw=localStorage.getItem('fg3');S=raw?JSON.parse(raw):defS();}catch{S=defS();}
+    migrate(S);
+    if(S.week===1&&!S.smithyCraft&&!S.smithyInv.length){
+      S.bank=35904;
+      S.bankLog=[
+        {w:5,amt:-200,bal:35904,note:'Smithy: commissioned Saddle of the Cavalier #3'},
+        {w:3,amt:-200,bal:36104,note:'Smithy: commissioned Saddle of the Cavalier #2'},
+        {w:1,amt:-450,bal:36304,note:'Armory: stocked for 8 defenders (end of Wk 1)'},
+        {w:1,amt:-200,bal:36754,note:'Smithy: commissioned Saddle of the Cavalier #1'}
+      ];
+      S.smithyInv=[{type:'tools',item:'Saddle of the Cavalier'},{type:'tools',item:'Saddle of the Cavalier'}];
+      S.smithyCraft={type:'tools',item:'Saddle of the Cavalier',cost:200,days:3,total:10};
+      S.defenders=24;S.armored=true;S.week=6;
+      S.log=[
+        {week:5,bank:35904,notes:['🏰 Barrack: +4 defenders recruited (now 24/25)','🛡 Armory: already stocked','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']},
+        {week:4,bank:36104,notes:['🏰 Barrack: +4 defenders recruited (now 20/25)','🛡 Armory: already stocked','⚒ Smithy: 🔨 Saddle of the Cavalier #2 completed!']},
+        {week:3,bank:36104,notes:['🏰 Barrack: +4 defenders recruited (now 16/25)','🛡 Armory: already stocked','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']},
+        {week:2,bank:36304,notes:['🏰 Barrack: +4 defenders recruited (now 12/25)','🛡 Armory: already stocked','⚒ Smithy: 🔨 Saddle of the Cavalier #1 completed!']},
+        {week:1,bank:36304,notes:['🏰 Barrack: +4 defenders recruited (now 8/25)','🛡 Armory: stocked (450 GP)','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']}
+      ];
+    }
+    stateRef.set(S);
+  }
+  // Subscribe: fires immediately with current value and on every remote change
+  stateRef.on('value',function(snap){
+    S=snap.val();migrate(S);render();
+    document.getElementById('loading').style.display='none';
+  });
+});
 </script>
 </body>
 </html>
