@@ -377,8 +377,9 @@ function defS(){
     trainer:null,
     defenders:4,armored:false,
     smithyCraft:null,smithyInv:[],
-    gardenMode:'herb',gardenSwitch:0,
-    gInv:{hk:0,ph:0,at:0,bp:0},
+    gardenMode:'herb',gardenSwitch:0,gardenTarget:null,
+    gardenHarvested:{hk:false,ph:false,at:false,bp:false,ra:false},
+    gInv:{hk:0,ph:0,at:0,bp:0,ra:0},
     wizDays:0,log:[]};
 }
 let S=defS();
@@ -390,7 +391,10 @@ function migrate(s){
   if(!s.scrlInv)s.scrlInv=[];
   if(!s.smithyInv)s.smithyInv=[];
   if(!s.log)s.log=[];
-  if(!s.gInv)s.gInv={hk:0,ph:0,at:0,bp:0};
+  if(!s.gInv)s.gInv={hk:0,ph:0,at:0,bp:0,ra:0};
+  if(s.gInv.ra===undefined)s.gInv.ra=0;
+  if(!s.gardenHarvested)s.gardenHarvested={hk:false,ph:false,at:false,bp:false,ra:false};
+  if(s.gardenTarget===undefined)s.gardenTarget=null;
   if(s.smithyCraft===undefined)s.smithyCraft=null;
   if(s.sacCraft===undefined)s.sacCraft=null;
   if(s.scrlCraft===undefined)s.scrlCraft=null;
@@ -692,24 +696,29 @@ function renderSmithyInv(){
 }
 
 // ═══════════ GARDEN ═══════════
-function startGardenSwitch(){
+function startGardenSwitch(target){
   if(S.gardenSwitch>0)return;
-  const target=S.gardenMode==='herb'?'Poison':'Herb';
   if(!confirm(`Switch garden to ${target} mode? The garden will be unavailable for 21 days (3 Bastion turns).`))return;
-  S.gardenSwitch=21;save();renderGarden();
+  S.gardenSwitch=21;S.gardenTarget=target;save();renderGarden();
 }
 function harvestGarden(ch){
   if(S.gardenSwitch>0)return;
+  if(S.gardenHarvested[ch]){alert('Already harvested this week.');return;}
   if(ch==='hk')S.gInv.hk+=10;
   else if(ch==='ph')S.gInv.ph+=1;
   else if(ch==='at')S.gInv.at+=2;
   else if(ch==='bp')S.gInv.bp+=1;
+  else if(ch==='ra')S.gInv.ra+=100;
+  S.gardenHarvested[ch]=true;
   save();renderGarden();
 }
 function useGItem(k,n){if(S.gInv[k]>=n){S.gInv[k]-=n;save();renderGarden();}}
 function renderGarden(){
   const sw=S.gardenSwitch>0;const mode=S.gardenMode;
-  document.getElementById('gardenModeLbl').innerHTML=`Mode: <strong style="color:${mode==='herb'?'var(--grn)':'var(--red)'}">${mode==='herb'?'🌿 Herb':'☠ Poison'}</strong>${sw?' <span class="tag tb">Switching...</span>':''}`;
+  const modeColor={herb:'var(--grn)',poison:'var(--red)',food:'var(--org)'};
+  const modeLabel={herb:'🌿 Herb',poison:'☠ Poison',food:'🍞 Food'};
+  const tgt=S.gardenTarget||'herb';
+  document.getElementById('gardenModeLbl').innerHTML=`Mode: <strong style="color:${modeColor[mode]}">${modeLabel[mode]}</strong>${sw?` <span class="tag tb">→ ${modeLabel[tgt]} (switching...)</span>`:''}`;
   document.getElementById('gardenSwProg').style.display=sw?'block':'none';
   if(sw){
     document.getElementById('gardenSwLbl').textContent=`${S.gardenSwitch} days left`;
@@ -717,20 +726,47 @@ function renderGarden(){
   }
   const hEl=document.getElementById('gardenHarvest');
   const swEl=document.getElementById('gardenSwBtn');
+  const h=S.gardenHarvested||{};
   if(sw){
     hEl.innerHTML='<div class="muted">Garden unavailable during mode switch.</div>';
     swEl.innerHTML='';
   } else if(mode==='herb'){
-    hEl.innerHTML='<div class="row"><button class="btn bg" style="flex:1" onclick="harvestGarden(\'hk\')">🩹 Harvest 10 Healer\'s Kits</button><button class="btn bg" style="flex:1" onclick="harvestGarden(\'ph\')">❤️ Harvest 1 Potion of Healing</button></div>';
-    swEl.innerHTML='<button class="btn bgh sm fw" style="margin-top:5px" onclick="startGardenSwitch()">🔄 Switch to Poison Mode (21 days)</button>';
+    hEl.innerHTML=`<div class="row">
+      <button class="btn bg" style="flex:1" onclick="harvestGarden('hk')" ${h.hk?'disabled':''}>🩹 Harvest 10 Healer's Kits${h.hk?' ✓':''}</button>
+      <button class="btn bg" style="flex:1" onclick="harvestGarden('ph')" ${h.ph?'disabled':''}>❤️ Harvest 1 Potion of Healing${h.ph?' ✓':''}</button>
+    </div>`;
+    swEl.innerHTML=`<div class="row" style="margin-top:5px">
+      <button class="btn bgh sm" style="flex:1" onclick="startGardenSwitch('poison')">🔄 → Poison Mode</button>
+      <button class="btn bgh sm" style="flex:1" onclick="startGardenSwitch('food')">🔄 → Food Mode</button>
+    </div>`;
+  } else if(mode==='poison'){
+    hEl.innerHTML=`<div class="row">
+      <button class="btn bg" style="flex:1" onclick="harvestGarden('at')" ${h.at?'disabled':''}>💚 Harvest 2 Antitoxin Vials${h.at?' ✓':''}</button>
+      <button class="btn bg" style="flex:1" onclick="harvestGarden('bp')" ${h.bp?'disabled':''}>☠ Harvest 1 Basic Poison Vial${h.bp?' ✓':''}</button>
+    </div>`;
+    swEl.innerHTML=`<div class="row" style="margin-top:5px">
+      <button class="btn bgh sm" style="flex:1" onclick="startGardenSwitch('herb')">🔄 → Herb Mode</button>
+      <button class="btn bgh sm" style="flex:1" onclick="startGardenSwitch('food')">🔄 → Food Mode</button>
+    </div>`;
   } else {
-    hEl.innerHTML='<div class="row"><button class="btn bg" style="flex:1" onclick="harvestGarden(\'at\')">💚 Harvest 2 Antitoxin Vials</button><button class="btn bg" style="flex:1" onclick="harvestGarden(\'bp\')">☠ Harvest 1 Basic Poison Vial</button></div>';
-    swEl.innerHTML='<button class="btn bgh sm fw" style="margin-top:5px" onclick="startGardenSwitch()">🔄 Switch to Herb Mode (21 days)</button>';
+    hEl.innerHTML=`<div class="row">
+      <button class="btn bg fw" onclick="harvestGarden('ra')" ${h.ra?'disabled':''}>🍞 Harvest 100 Days of Rations${h.ra?' ✓':''}</button>
+    </div>`;
+    swEl.innerHTML=`<div class="row" style="margin-top:5px">
+      <button class="btn bgh sm" style="flex:1" onclick="startGardenSwitch('herb')">🔄 → Herb Mode</button>
+      <button class="btn bgh sm" style="flex:1" onclick="startGardenSwitch('poison')">🔄 → Poison Mode</button>
+    </div>`;
   }
   const g=S.gInv;
-  const items=[{k:'hk',n:"Healer's Kits",ico:'🩹',use:1},{k:'ph',n:'Potions of Healing',ico:'❤️',use:1},{k:'at',n:'Antitoxin Vials',ico:'💚',use:1},{k:'bp',n:'Basic Poison Vials',ico:'☠',use:1}];
+  const items=[
+    {k:'hk',n:"Healer's Kits",ico:'🩹',use:1},
+    {k:'ph',n:'Potions of Healing',ico:'❤️',use:1},
+    {k:'at',n:'Antitoxin Vials',ico:'💚',use:1},
+    {k:'bp',n:'Basic Poison Vials',ico:'☠',use:1},
+    {k:'ra',n:'Ration Days',ico:'🍞',use:1}
+  ];
   document.getElementById('gardenInv').innerHTML='<div class="C" style="font-size:.7rem;color:var(--muted);margin-bottom:5px">GARDEN STORES</div>'+
-    items.map(i=>`<div class="ir"><span>${i.ico} ${i.n}</span><span style="display:flex;align-items:center;gap:8px"><strong class="gv">${g[i.k]}</strong><button class="btn br sm" onclick="useGItem('${i.k}',${i.use})" ${g[i.k]<i.use?'disabled':''}>Use 1</button></span></div>`).join('');
+    items.map(i=>`<div class="ir"><span>${i.ico} ${i.n}</span><span style="display:flex;align-items:center;gap:8px"><strong class="gv">${g[i.k]||0}</strong><button class="btn br sm" onclick="useGItem('${i.k}',${i.use})" ${(g[i.k]||0)<i.use?'disabled':''}>Use 1</button></span></div>`).join('');
 }
 
 // ═══════════ GAMING HALL ═══════════
@@ -800,7 +836,8 @@ function endWeek(){
   } else notes.push(`⛪ Sacristy: ${S.sacCraft.days} days remaining`);}
 
   // Garden mode switch
-  if(S.gardenSwitch>0){S.gardenSwitch=Math.max(0,S.gardenSwitch-7);if(S.gardenSwitch===0){S.gardenMode=S.gardenMode==='herb'?'poison':'herb';notes.push(`🌿 Garden: switched to ${S.gardenMode} mode!`);}else notes.push(`🌿 Garden: mode switch — ${S.gardenSwitch} days left`);}
+  if(S.gardenSwitch>0){S.gardenSwitch=Math.max(0,S.gardenSwitch-7);if(S.gardenSwitch===0){S.gardenMode=S.gardenTarget||'herb';S.gardenTarget=null;notes.push(`🌿 Garden: switched to ${S.gardenMode} mode!`);}else notes.push(`🌿 Garden: mode switch — ${S.gardenSwitch} days left`);}
+  S.gardenHarvested={hk:false,ph:false,at:false,bp:false,ra:false};
 
   // Wizard timer
   if(S.wizDays>0){S.wizDays=Math.max(0,S.wizDays-7);if(S.wizDays===0)notes.push('✨ Teleport Circle: wizard has departed (stay expired).');else notes.push(`✨ Teleport Circle: wizard stays ${S.wizDays} more days`);}
