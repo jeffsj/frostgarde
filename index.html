@@ -843,28 +843,8 @@ initStable();updateScrollInfo();fillRelics();
 // ── Bootstrap: seed from localStorage on first-ever load, then sync in real-time ──
 stateRef.once('value').then(function(snap){
   if(!snap.val()){
-    // Database is empty — migrate existing localStorage save, or use catch-up defaults
-    try{const raw=localStorage.getItem('fg3');S=raw?JSON.parse(raw):defS();}catch{S=defS();}
-    migrate(S);
-    if(S.week===1&&!S.smithyCraft&&!S.smithyInv.length){
-      S.bank=35904;
-      S.bankLog=[
-        {w:5,amt:-200,bal:35904,note:'Smithy: commissioned Saddle of the Cavalier #3'},
-        {w:3,amt:-200,bal:36104,note:'Smithy: commissioned Saddle of the Cavalier #2'},
-        {w:1,amt:-450,bal:36304,note:'Armory: stocked for 8 defenders (end of Wk 1)'},
-        {w:1,amt:-200,bal:36754,note:'Smithy: commissioned Saddle of the Cavalier #1'}
-      ];
-      S.smithyInv=[{type:'tools',item:'Saddle of the Cavalier'},{type:'tools',item:'Saddle of the Cavalier'}];
-      S.smithyCraft={type:'tools',item:'Saddle of the Cavalier',cost:200,days:3,total:10};
-      S.defenders=24;S.armored=true;S.week=6;
-      S.log=[
-        {week:5,bank:35904,notes:['🏰 Barrack: +4 defenders recruited (now 24/25)','🛡 Armory: already stocked','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']},
-        {week:4,bank:36104,notes:['🏰 Barrack: +4 defenders recruited (now 20/25)','🛡 Armory: already stocked','⚒ Smithy: 🔨 Saddle of the Cavalier #2 completed!']},
-        {week:3,bank:36104,notes:['🏰 Barrack: +4 defenders recruited (now 16/25)','🛡 Armory: already stocked','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']},
-        {week:2,bank:36304,notes:['🏰 Barrack: +4 defenders recruited (now 12/25)','🛡 Armory: already stocked','⚒ Smithy: 🔨 Saddle of the Cavalier #1 completed!']},
-        {week:1,bank:36304,notes:['🏰 Barrack: +4 defenders recruited (now 8/25)','🛡 Armory: stocked (450 GP)','⚒ Smithy: 3 days remaining on Saddle of the Cavalier']}
-      ];
-    }
+    // Database is empty — start fresh from defaults
+    S=defS();
     stateRef.set(S);
   }
   // Subscribe: fires immediately with current value and on every remote change
