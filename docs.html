@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Frostgarde — How It Works</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Crimson+Text:ital@0;1&display=swap');
+:root{--bg:#0d1b2a;--card:#1e3552;--mid:#1a2f4a;--deep:#07101c;--gold:#c9a84c;--gold2:#e8c97a;--frost:#a8d8f0;--bdr:#2d4a6a;--txt:#e8e0d0;--muted:#8a9bb0;--grn:#2ecc71;--red:#e74c3c;--org:#e67e22}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Crimson Text',Georgia,serif;background:var(--bg);color:var(--txt);font-size:16px;line-height:1.65}
+.C{font-family:'Cinzel',serif}
+header{background:linear-gradient(135deg,#07101c,#1a2f4a,#07101c);border-bottom:2px solid var(--gold);padding:18px;text-align:center}
+header h1{font-family:'Cinzel',serif;font-size:2rem;color:var(--gold2);letter-spacing:4px;text-shadow:0 0 20px rgba(201,168,76,.4)}
+header p{color:var(--frost);font-style:italic;margin:4px 0;font-size:.9rem}
+main{max-width:860px;margin:0 auto;padding:24px 16px}
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:20px;margin-bottom:18px}
+.card.b{border-top:3px solid #4a90d9}.card.t{border-top:3px solid #d94a4a}.card.x{border-top:3px solid #9b59b6}.card.v{border-top:3px solid #d9a84a}
+h2{font-family:'Cinzel',serif;color:var(--gold);font-size:.92rem;text-transform:uppercase;letter-spacing:2px;border-bottom:1px solid var(--bdr);padding-bottom:7px;margin-bottom:14px}
+h3{font-family:'Cinzel',serif;color:var(--gold2);font-size:.82rem;letter-spacing:1.5px;margin:14px 0 6px}
+p{margin-bottom:10px;font-size:.95rem}
+ul,ol{padding-left:18px;margin-bottom:10px;font-size:.93rem}
+li{margin-bottom:4px}
+.box{background:var(--mid);border:1px solid var(--bdr);border-radius:7px;padding:12px 14px;margin:10px 0}
+.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:.68rem;font-family:'Cinzel',serif;border:1px solid;margin:0 2px;vertical-align:middle}
+.tg{color:var(--gold);border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.1)}
+.tb{color:var(--frost);border-color:rgba(168,216,240,.4);background:rgba(168,216,240,.1)}
+.tn{color:var(--grn);border-color:rgba(46,204,113,.4);background:rgba(46,204,113,.1)}
+.tr{color:var(--red);border-color:rgba(231,76,60,.4);background:rgba(231,76,60,.1)}
+.muted{color:var(--muted);font-style:italic;font-size:.88rem}
+.gv{color:var(--gold2);font-family:'Cinzel',serif}
+.gn{color:var(--grn)}.rd{color:var(--red)}
+table{width:100%;border-collapse:collapse;font-size:.85rem;margin:10px 0}
+th{font-family:'Cinzel',serif;color:var(--gold);font-size:.7rem;text-transform:uppercase;letter-spacing:.7px;padding:7px 10px;text-align:left;border-bottom:1px solid var(--bdr)}
+td{padding:7px 10px;border-bottom:1px solid rgba(45,74,106,.35);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.back{display:inline-block;font-family:'Cinzel',serif;color:var(--muted);font-size:.75rem;text-decoration:none;border:1px solid var(--bdr);border-radius:6px;padding:5px 12px;margin-bottom:18px;transition:color .2s,border-color .2s}
+.back:hover{color:var(--gold);border-color:var(--gold)}
+.toc{list-style:none;padding:0;column-count:2;column-gap:20px}
+.toc li{margin-bottom:5px}
+.toc a{color:var(--frost);text-decoration:none;font-size:.9rem}
+.toc a:hover{color:var(--gold2)}
+@media(max-width:600px){.toc{column-count:1}}
+footer{text-align:center;padding:14px 0 22px;border-top:1px solid var(--bdr);margin-top:8px;color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<header>
+  <h1>Frostgarde</h1>
+  <p>Bastion Tracker — How It Works</p>
+</header>
+<main>
+  <a href="index.html" class="back">← Back to Tracker</a>
+
+  <div class="card">
+    <h2>Overview</h2>
+    <p>The Frostgarde Bastion Tracker is a shared, real-time tool that manages the party's bastion between sessions. All data is stored in a live database — every player sees the same numbers the moment anything changes. The DM controls what actions are taken; everyone else can follow along.</p>
+    <p>The tracker is organized around the bastion's current occupants and their facilities:</p>
+    <ul class="toc">
+      <li><a href="#bank">Banque de Frostgarde</a></li>
+      <li><a href="#stable">Vast Stable</a></li>
+      <li><a href="#storehouse">Storehouse</a></li>
+      <li><a href="#teleport">Teleportation Circle</a></li>
+      <li><a href="#sacristy">Sacristy</a></li>
+      <li><a href="#training">Training Area</a></li>
+      <li><a href="#barrack">Vast Barrack</a></li>
+      <li><a href="#armory">Armory</a></li>
+      <li><a href="#smithy">Smithy</a></li>
+      <li><a href="#scriptorium">Scriptorium</a></li>
+      <li><a href="#garden">Vast Garden</a></li>
+      <li><a href="#gaming">Gaming Hall</a></li>
+      <li><a href="#inventories">Inventories</a></li>
+      <li><a href="#endweek">End Week</a></li>
+      <li><a href="#chronicle">Weekly Chronicle</a></li>
+    </ul>
+  </div>
+
+  <!-- BANK -->
+  <div class="card" id="bank">
+    <h2>Banque de Frostgarde</h2>
+    <p>The central treasury shared by the whole party. Every GP spent or earned through the bastion flows through here. The large number at the top is the current balance.</p>
+    <h3>Transactions</h3>
+    <p>The DM can add or deduct any amount with an optional note explaining what it's for. All transactions are logged with the week number, the change amount, and the resulting balance. The ten most recent transactions are always visible.</p>
+    <p class="muted">The bank balance is the source of truth for all facility costs. If a purchase would take the bank below zero, the tracker will refuse it.</p>
+  </div>
+
+  <!-- STABLE -->
+  <div class="card" id="stable">
+    <h2>Vast Stable <span class="tag tb">6 Large Slots</span></h2>
+    <p>The stable can house animals that are bought and sold for profit. Its capacity is measured in <strong>slots</strong> — not individual animals — because different animals take up different amounts of space.</p>
+    <table>
+      <thead><tr><th>Size</th><th>Slots Used</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td>Medium</td><td>0.5</td><td>Donkey/Mule, Mastiff, Pony</td></tr>
+        <tr><td>Large</td><td>1</td><td>Camel, Draft Horse, Riding Horse, Warhorse</td></tr>
+        <tr><td>Huge</td><td>Cannot be housed</td><td>Elephant</td></tr>
+      </tbody>
+    </table>
+    <h3>How the buying cycle works</h3>
+    <ol>
+      <li>An animal is ordered — its cost is immediately deducted from the bank.</li>
+      <li>At the start of the <strong>next week</strong> (when End Week is clicked), it arrives and enters the stable.</li>
+      <li>It stays for <strong>2 weeks in the stable</strong>, then is automatically sold for <span class="gn">120% of its purchase cost</span>.</li>
+    </ol>
+    <div class="box">
+      <strong>Example:</strong> A Warhorse costs 400 GP. It arrives next week, stays two weeks, then sells for 480 GP — a 80 GP profit per horse.
+    </div>
+    <p class="muted">If a new arrival can't fit because the stable is full, it is turned away and its purchase cost is refunded to the bank.</p>
+  </div>
+
+  <!-- STOREHOUSE -->
+  <div class="card" id="storehouse">
+    <h2>Storehouse <span class="tag tb">Trade Orders</span></h2>
+    <p>The storehouse lets the bastion buy and resell trade goods for a guaranteed return.</p>
+    <ul>
+      <li>Each lot costs <span class="rd">2,000 GP</span> (deducted immediately).</li>
+      <li>Selling a lot schedules a payout of <span class="gn">2,400 GP</span> (received at the <em>start</em> of next week).</li>
+      <li>Only one sale can be pending at a time.</li>
+      <li>Multiple lots can be held in stock simultaneously.</li>
+    </ul>
+    <p class="muted">The 400 GP margin per lot is the storehouse's built-in income. There is no dice roll — it always pays out.</p>
+  </div>
+
+  <!-- TELEPORTATION CIRCLE -->
+  <div class="card b" id="teleport">
+    <h2 style="color:#4a90d9">Teleportation Circle — Brandus (Paladin)</h2>
+    <p>Brandus can invite a spellcaster to come and inscribe a permanent Teleportation Circle. The outcome is determined by a <strong>d20 roll</strong>:</p>
+    <table>
+      <thead><tr><th>Roll</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Even (2, 4, 6 … 20)</td><td class="gn">The wizard accepts. They arrive and stay for <strong>14 days</strong>.</td></tr>
+        <tr><td>Odd (1, 3, 5 … 19)</td><td class="rd">The invitation is declined. Nothing happens.</td></tr>
+      </tbody>
+    </table>
+    <p>While a wizard is present, the tracker shows a progress bar counting down their stay. When they cast the circle spell and depart, their timer resets and a new invitation can be sent.</p>
+    <p class="muted">The d20 is rolled by the tracker automatically and displayed alongside the result.</p>
+  </div>
+
+  <!-- SACRISTY -->
+  <div class="card b" id="sacristy">
+    <h2 style="color:#4a90d9">Sacristy — Brandus (Paladin)</h2>
+    <p>The sacristy produces Holy Water and magical relics. Only one project can be active at a time.</p>
+    <h3>Holy Water</h3>
+    <p>Always takes <strong>7 days</strong> to craft. Optionally, the party can invest extra gold to increase its potency:</p>
+    <table>
+      <thead><tr><th>Gold Invested</th><th>Damage</th></tr></thead>
+      <tbody>
+        <tr><td>0 GP</td><td>Base damage</td></tr>
+        <tr><td>100 GP</td><td>+1d8</td></tr>
+        <tr><td>200 GP</td><td>+2d8</td></tr>
+        <tr><td>300 GP</td><td>+3d8</td></tr>
+        <tr><td>400 GP</td><td>+4d8</td></tr>
+        <tr><td>500 GP (max)</td><td>+5d8</td></tr>
+      </tbody>
+    </table>
+    <h3>Relics</h3>
+    <p>Crafts a specific magic item. Crafting time depends on rarity:</p>
+    <ul>
+      <li><strong>Common</strong> — 5 days</li>
+      <li><strong>Uncommon</strong> — 10 days</li>
+    </ul>
+    <p>The crafting cost is entered manually by the DM per the DMG crafting table. Completed relics go directly into the Sacristy Inventory.</p>
+  </div>
+
+  <!-- TRAINING AREA -->
+  <div class="card b" id="training">
+    <h2 style="color:#4a90d9">Training Area — Brandus (Paladin)</h2>
+    <p>Once per week, Brandus can hire one Expert Trainer. The chosen trainer's benefit lasts for the current week and expires when End Week is advanced.</p>
+    <table>
+      <thead><tr><th>Trainer</th><th>Benefit</th></tr></thead>
+      <tbody>
+        <tr><td>Battle Expert</td><td>When hit by an attack, use a Reaction to reduce damage by 1d4.</td></tr>
+        <tr><td>Skills Expert</td><td>Gain proficiency in one skill (specified at time of booking).</td></tr>
+        <tr><td>Tools Expert</td><td>Gain proficiency with one tool (specified at time of booking).</td></tr>
+        <tr><td>Unarmed Combat Expert</td><td>Unarmed Strikes deal an extra 1d4 Bludgeoning damage.</td></tr>
+        <tr><td>Weapon Expert</td><td>Gain proficiency or use the Mastery property of a chosen weapon.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BARRACK -->
+  <div class="card t" id="barrack">
+    <h2 style="color:#d94a4a">Vast Barrack — Thalric (Barbarian)</h2>
+    <p>The barrack houses up to <strong>25 defenders</strong>. It auto-recruits <strong>+4 defenders per bastion turn</strong> (each End Week) until the cap is reached. Recruitment is free and automatic — no action is required.</p>
+    <p class="muted">The defender count feeds directly into the Armory's cost calculation below.</p>
+  </div>
+
+  <!-- ARMORY -->
+  <div class="card t" id="armory">
+    <h2 style="color:#d94a4a">Armory — Thalric (Barbarian)</h2>
+    <p>The armory equips all the barrack's defenders before a fight. It auto-stocks at the end of each week at a cost of:</p>
+    <div class="box" style="text-align:center;font-size:1.1rem">
+      <span class="gv">50 GP + (50 GP × number of defenders)</span>
+    </div>
+    <p>So with 10 defenders the armory costs 550 GP to stock; at 25 defenders it costs 1,300 GP.</p>
+    <h3>After a battle</h3>
+    <p>When the armory's stock is expended in a fight, the DM marks it as empty. It will automatically re-stock at the next End Week for the current defender count.</p>
+    <p class="muted">If the bank doesn't have enough to cover the stocking cost at End Week, the armory stays empty and a warning is logged in the Chronicle.</p>
+  </div>
+
+  <!-- SMITHY -->
+  <div class="card t" id="smithy">
+    <h2 style="color:#d94a4a">Smithy — Thalric (Barbarian)</h2>
+    <p>The smithy can produce one item at a time. There are two types of crafting order:</p>
+    <ul>
+      <li><strong>Smith's Tools Item</strong> — Any mundane weapon, armor, or piece of equipment. The DM enters the item name, cost (per PHB crafting rules), and number of days.</li>
+      <li><strong>Magic Armament</strong> — A magical weapon or armor piece. The DM enters the item name, cost, and days per DMG crafting rules.</li>
+    </ul>
+    <p>The tracker counts down the days each time End Week is advanced (7 days per advance). Completed items move to the Smithy Inventory.</p>
+  </div>
+
+  <!-- SCRIPTORIUM -->
+  <div class="card x" id="scriptorium">
+    <h2 style="color:#9b59b6">Scriptorium — Xena (Cleric)</h2>
+    <p>Xena's scriptorium scribes spell scrolls one at a time. Cost and time are fixed by spell level:</p>
+    <table>
+      <thead><tr><th>Level</th><th>Cost</th><th>Time</th></tr></thead>
+      <tbody>
+        <tr><td>Level 1</td><td>50 GP</td><td>7 days</td></tr>
+        <tr><td>Level 2</td><td>250 GP</td><td>14 days</td></tr>
+        <tr><td>Level 3</td><td>500 GP</td><td>28 days</td></tr>
+      </tbody>
+    </table>
+    <p>The spell name is entered by the DM. Cost is deducted from the bank immediately when scribing begins. Completed scrolls appear in the Scrolls on Hand inventory.</p>
+  </div>
+
+  <!-- GARDEN -->
+  <div class="card x" id="garden">
+    <h2 style="color:#9b59b6">Vast Garden — Xena (Cleric)</h2>
+    <p>The garden can operate in three modes. Each mode produces a different set of harvestable items once per week.</p>
+    <table>
+      <thead><tr><th>Mode</th><th>Weekly Yield (can harvest each separately)</th></tr></thead>
+      <tbody>
+        <tr><td><span style="color:var(--grn)">Herb Mode</span></td><td>10 Healer's Kits <em>and</em> 1 Potion of Healing</td></tr>
+        <tr><td><span style="color:var(--red)">Poison Mode</span></td><td>2 Antitoxin Vials <em>and</em> 1 Basic Poison Vial</td></tr>
+        <tr><td><span style="color:var(--org)">Food Mode</span></td><td>100 Days of Rations</td></tr>
+      </tbody>
+    </table>
+    <p>Harvests reset automatically every End Week. If something isn't harvested before End Week, it's lost.</p>
+    <h3>Switching Modes</h3>
+    <p>The garden can be switched to any other mode, but it takes <strong>21 days (3 bastion turns)</strong> during which nothing can be harvested. The new mode activates automatically when the countdown reaches zero.</p>
+    <h3>Garden Stores</h3>
+    <p>Items harvested accumulate in the garden's inventory. They can be used one at a time directly from the tracker.</p>
+  </div>
+
+  <!-- GAMING HALL -->
+  <div class="card v" id="gaming">
+    <h2 style="color:#d9a84a">Gaming Hall — Vini Volo Vinci</h2>
+    <p>Once per week, VVV rolls a d100 on the Gaming Hall table. Winnings are automatically added to the bank.</p>
+    <table>
+      <thead><tr><th>Roll</th><th>Tier</th><th>Winnings</th></tr></thead>
+      <tbody>
+        <tr><td>01–50</td><td>Tier 1</td><td>1d6 × 10 GP</td></tr>
+        <tr><td>51–85</td><td>Tier 2</td><td>2d6 × 10 GP</td></tr>
+        <tr><td>86–95</td><td>Tier 3</td><td>4d6 × 10 GP</td></tr>
+        <tr><td>96–100</td><td>Jackpot</td><td>10d6 × 10 GP</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">The tracker rolls the d100 and the appropriate dice automatically, shows the full result, and logs the winnings.</p>
+  </div>
+
+  <!-- INVENTORIES -->
+  <div class="card" id="inventories">
+    <h2>Inventories</h2>
+    <p>Three separate inventories track crafted and harvested items available to the party:</p>
+    <ul>
+      <li><strong>Sacristy Inventory</strong> — Holy Water vials and relics crafted in the sacristy. Holy Water entries show their potency (e.g. "+3d8").</li>
+      <li><strong>Scrolls on Hand</strong> — Spell scrolls completed in the scriptorium, labeled by spell name and level.</li>
+      <li><strong>Smithy — Crafted Items</strong> — Tools and magic armaments finished in the smithy.</li>
+      <li><strong>Garden Stores</strong> — Consumables harvested from the garden (Healer's Kits, Potions, Antitoxin, Poison, Rations).</li>
+    </ul>
+    <p>When an item is used or consumed, the DM removes it from the relevant inventory. This keeps all players' views in sync instantly.</p>
+  </div>
+
+  <!-- END WEEK -->
+  <div class="card" id="endweek">
+    <h2>End Week &amp; Advance</h2>
+    <p>Clicking <strong>End Week</strong> advances time by one bastion turn (7 days) and resolves everything that happens between sessions, in this order:</p>
+    <ol>
+      <li><strong>Storehouse</strong> — Any pending sale payout is added to the bank.</li>
+      <li><strong>Stable</strong> — Mature animals (2 weeks in stable) are auto-sold at 120%. New arrivals move from "On Order" to "In Stable." Overflow animals that can't fit are returned with a full refund.</li>
+      <li><strong>Barrack</strong> — Up to 4 new defenders are recruited (capped at 25).</li>
+      <li><strong>Armory</strong> — If unstocked, the armory is stocked automatically and the cost is deducted.</li>
+      <li><strong>Scriptorium</strong> — 7 days counted down. Completed scrolls enter inventory.</li>
+      <li><strong>Sacristy</strong> — 7 days counted down. Completed items enter inventory.</li>
+      <li><strong>Garden</strong> — 7 days counted down on any mode switch. Harvests reset for the new week.</li>
+      <li><strong>Teleportation Circle</strong> — 7 days counted off the wizard's stay. Wizard departs if time is up.</li>
+      <li><strong>Smithy</strong> — 7 days counted down. Completed items enter inventory.</li>
+      <li><strong>Chronicle</strong> — All events are logged with the week number and final bank balance.</li>
+      <li><strong>Trainer</strong> — The current week's trainer benefit expires.</li>
+    </ol>
+    <p class="muted">The week counter increments after all of the above resolves.</p>
+  </div>
+
+  <!-- CHRONICLE -->
+  <div class="card" id="chronicle">
+    <h2>Weekly Chronicle</h2>
+    <p>The chronicle is a running history of every completed week. Each entry shows:</p>
+    <ul>
+      <li>The week number</li>
+      <li>The bank balance at the close of that week</li>
+      <li>A full list of everything that happened — sales received, animals sold, crafts completed, armory costs, and more</li>
+    </ul>
+    <p class="muted">The chronicle is read-only and grows automatically each time End Week is advanced.</p>
+  </div>
+
+  <!-- TECHNICAL -->
+  <div class="card">
+    <h2>Live Sync &amp; Data</h2>
+    <p>All data is stored in a Firebase Realtime Database. Every change made by the DM is written to the database and pushed to all connected viewers instantly — no refresh needed. The loading screen at startup confirms the connection is live before showing any data.</p>
+    <p>The tracker is hosted on Netlify and works on any device with a browser. All players see exactly the same state at all times.</p>
+  </div>
+
+</main>
+<footer>
+  Frostgarde Bastion Tracker · <a href="index.html" style="color:var(--frost);text-decoration:none">Back to Tracker</a>
+</footer>
+</body>
+</html>
