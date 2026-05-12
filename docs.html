@@ -53,7 +53,7 @@ footer{text-align:center;padding:14px 0 22px;border-top:1px solid var(--bdr);mar
 
   <div class="card">
     <h2>Overview</h2>
-    <p>The Frostgarde Bastion Tracker is a shared, real-time tool that manages the party's bastion between sessions. All data is stored in a live database — every player sees the same numbers the moment anything changes. The Admincontrols what actions are taken; everyone else can follow along.</p>
+    <p>The Frostgarde Bastion Tracker is a shared, real-time tool that manages the party's bastion between sessions. All data is stored in a live database — every player sees the same numbers the moment anything changes. The Admin controls what actions are taken; everyone else can follow along.</p>
     <p>The tracker is organized around the bastion's current occupants and their facilities:</p>
     <ul class="toc">
       <li><a href="#bank">Banque de Frostgarde</a></li>
@@ -158,7 +158,7 @@ footer{text-align:center;padding:14px 0 22px;border-top:1px solid var(--bdr);mar
       <li><strong>Common</strong> — 5 days</li>
       <li><strong>Uncommon</strong> — 10 days</li>
     </ul>
-    <p>The crafting cost is entered manually by the Adminper the DMG crafting table. Completed relics go directly into the Sacristy Inventory.</p>
+    <p>The crafting cost is entered manually by the Admin per the DMG crafting table. Completed relics go directly into the Sacristy Inventory.</p>
   </div>
 
   <!-- TRAINING AREA -->
@@ -193,7 +193,7 @@ footer{text-align:center;padding:14px 0 22px;border-top:1px solid var(--bdr);mar
     </div>
     <p>So with 10 defenders the armory costs 550 GP to stock; at 25 defenders it costs 1,300 GP.</p>
     <h3>After a battle</h3>
-    <p>When the armory's stock is expended in a fight, the Adminmarks it as empty. It will automatically re-stock at the next End Week for the current defender count.</p>
+    <p>When the armory's stock is expended in a fight, the Admin marks it as empty. It will automatically re-stock at the next End Week for the current defender count.</p>
     <p class="muted">If the bank doesn't have enough to cover the stocking cost at End Week, the armory stays empty and a warning is logged in the Chronicle.</p>
   </div>
 
@@ -202,8 +202,8 @@ footer{text-align:center;padding:14px 0 22px;border-top:1px solid var(--bdr);mar
     <h2 style="color:#d94a4a">Smithy — Thalric (Barbarian)</h2>
     <p>The smithy can produce one item at a time. There are two types of crafting order:</p>
     <ul>
-      <li><strong>Smith's Tools Item</strong> — Any mundane weapon, armor, or piece of equipment. The Adminenters the item name, cost (per PHB crafting rules), and number of days.</li>
-      <li><strong>Magic Armament</strong> — A magical weapon or armor piece. The Adminenters the item name, cost, and days per DMG crafting rules.</li>
+      <li><strong>Smith's Tools Item</strong> — Any mundane weapon, armor, or piece of equipment. The Admin enters the item name, cost (per PHB crafting rules), and number of days.</li>
+      <li><strong>Magic Armament</strong> — A magical weapon or armor piece. The Admin enters the item name, cost, and days per DMG crafting rules.</li>
     </ul>
     <p>The tracker counts down the days each time End Week is advanced (7 days per advance). Completed items move to the Smithy Inventory.</p>
   </div>
@@ -268,7 +268,7 @@ footer{text-align:center;padding:14px 0 22px;border-top:1px solid var(--bdr);mar
       <li><strong>Smithy — Crafted Items</strong> — Tools and magic armaments finished in the smithy.</li>
       <li><strong>Garden Stores</strong> — Consumables harvested from the garden (Healer's Kits, Potions, Antitoxin, Poison, Rations).</li>
     </ul>
-    <p>When an item is used or consumed, the Adminremoves it from the relevant inventory. This keeps all players' views in sync instantly.</p>
+    <p>When an item is used or consumed, the Admin removes it from the relevant inventory. This keeps all players' views in sync instantly.</p>
   </div>
 
   <!-- END WEEK -->
@@ -306,7 +306,7 @@ footer{text-align:center;padding:14px 0 22px;border-top:1px solid var(--bdr);mar
   <!-- TECHNICAL -->
   <div class="card">
     <h2>Live Sync &amp; Data</h2>
-    <p>All data is stored in a Firebase Realtime Database. Every change made by the Adminis written to the database and pushed to all connected viewers instantly — no refresh needed. The loading screen at startup confirms the connection is live before showing any data.</p>
+    <p>All data is stored in a Firebase Realtime Database. Every change made by the Admin is written to the database and pushed to all connected viewers instantly — no refresh needed. The loading screen at startup confirms the connection is live before showing any data.</p>
     <p>The tracker is hosted on Netlify and works on any device with a browser. All players see exactly the same state at all times.</p>
   </div>
 
