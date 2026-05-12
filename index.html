@@ -56,6 +56,12 @@ tr:last-child td{border-bottom:none}
 .end-btn:hover{background:linear-gradient(135deg,#c0392b,#e74c3c);transform:translateY(-2px);box-shadow:0 8px 28px rgba(192,57,43,.4)}
 ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
 #loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999;font-family:'Cinzel',serif;color:var(--gold2);font-size:1.2rem;letter-spacing:3px}
+body:not(.is-admin) .admin-only{display:none!important}
+.modal-hide{display:none!important}
+#loginModal{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:1000;display:flex;align-items:center;justify-content:center}
+.modal-box{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:28px;width:320px;max-width:90vw}
+.modal-box h2{margin-bottom:16px;font-size:1rem}
+footer{text-align:center;padding:12px 0 20px;border-top:1px solid var(--bdr);margin-top:4px}
 </style>
 </head>
 <body>
@@ -72,7 +78,7 @@ tr:last-child td{border-bottom:none}
   <h2>🏦 Banque de Frostgarde</h2>
   <div class="bank-amt" id="bankEl">36,954 GP</div>
   <div class="g2">
-    <div class="box">
+    <div class="box admin-only">
       <div class="row">
         <div><label>Amount (GP)</label><input type="number" id="adjAmt" placeholder="0" min="0"></div>
         <div><label>Note</label><input type="text" id="adjNote" placeholder="Reason..."></div>
@@ -95,7 +101,7 @@ tr:last-child td{border-bottom:none}
   <h2>🐴 Vast Stable <span class="tag tb">6 Large Slots</span></h2>
   <div style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:3px"><span>Capacity</span><span class="gv" id="capLbl">0 / 6 slots</span></div>
   <div class="prog"><div class="pf pg" id="capFill" style="width:0%"></div></div>
-  <div class="box" style="margin-top:10px">
+  <div class="box admin-only" style="margin-top:10px">
     <div class="row">
       <div><label>Animal</label><select id="aniSel"></select></div>
       <div style="flex:0 0 70px"><label>Qty</label><input type="number" id="aniQty" value="1" min="1" max="12" style="text-align:center"></div>
@@ -111,7 +117,7 @@ tr:last-child td{border-bottom:none}
   <div class="box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span>Stock on Hand:</span><span class="gv" id="stockEl">0 lots</span></div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span>Pending Payout (next week):</span><span id="pendingEl" class="muted">—</span></div>
-    <div class="row">
+    <div class="row admin-only">
       <button class="btn bg" onclick="shBuy()">📥 Buy 2,000 GP Stock</button>
       <button class="btn bgn" onclick="shSell()" id="btnSell" disabled>📤 Sell → 2,400 GP</button>
     </div>
@@ -131,16 +137,16 @@ tr:last-child td{border-bottom:none}
       <div id="wizBar" style="display:none;margin-bottom:7px">
         <div style="display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted)"><span>Wizard's Stay</span><span id="wizDLbl">14 days</span></div>
         <div class="prog"><div class="pf pbl" id="wizFill" style="width:100%"></div></div>
-        <button class="btn bgh sm fw" style="margin-top:6px" onclick="wizCasts()">🔮 Wizard Casts Spell (Departs)</button>
+        <button class="btn bgh sm fw admin-only" style="margin-top:6px" onclick="wizCasts()">🔮 Wizard Casts Spell (Departs)</button>
       </div>
-      <button class="btn bg fw" id="btnWiz" onclick="rollWizard()">🎲 Invite Spellcaster</button>
+      <button class="btn bg fw admin-only" id="btnWiz" onclick="rollWizard()">🎲 Invite Spellcaster</button>
       <div id="wizFb" class="fb"></div>
     </div>
 
     <div class="box">
       <div class="C" style="font-size:.87rem;margin-bottom:7px">⛪ Sacristy</div>
       <div id="sacStat" style="margin-bottom:6px"></div>
-      <div id="sacForm">
+      <div id="sacForm" class="admin-only">
         <label>Craft This Week</label>
         <select id="sacChoice" onchange="sacChange()">
           <option value="">Choose...</option>
@@ -177,21 +183,23 @@ tr:last-child td{border-bottom:none}
     <div class="box">
       <div class="C" style="font-size:.87rem;margin-bottom:7px">🏋 Training Area</div>
       <div id="trainStat" class="muted" style="font-size:.82rem;margin-bottom:7px">No trainer selected this week.</div>
-      <label>Expert Trainer</label>
-      <select id="trainerSel" onchange="trainerChange()">
-        <option value="">Select trainer...</option>
-        <option value="battle">Battle Expert</option>
-        <option value="skills">Skills Expert</option>
-        <option value="tools">Tools Expert</option>
-        <option value="unarmed">Unarmed Combat Expert</option>
-        <option value="weapon">Weapon Expert</option>
-      </select>
-      <div id="trainerDRow" style="display:none;margin-top:5px">
-        <label id="trainerDLbl">Specify:</label>
-        <input type="text" id="trainerDInp" placeholder="Enter detail...">
+      <div class="admin-only">
+        <label>Expert Trainer</label>
+        <select id="trainerSel" onchange="trainerChange()">
+          <option value="">Select trainer...</option>
+          <option value="battle">Battle Expert</option>
+          <option value="skills">Skills Expert</option>
+          <option value="tools">Tools Expert</option>
+          <option value="unarmed">Unarmed Combat Expert</option>
+          <option value="weapon">Weapon Expert</option>
+        </select>
+        <div id="trainerDRow" style="display:none;margin-top:5px">
+          <label id="trainerDLbl">Specify:</label>
+          <input type="text" id="trainerDInp" placeholder="Enter detail...">
+        </div>
+        <div id="trainerFb" class="fb on" style="font-size:.8rem;color:var(--muted)">Choose a trainer above.</div>
+        <button class="btn bg fw" onclick="confirmTrainer()" style="margin-top:6px">✓ Confirm Trainer</button>
       </div>
-      <div id="trainerFb" class="fb on" style="font-size:.8rem;color:var(--muted)">Choose a trainer above.</div>
-      <button class="btn bg fw" onclick="confirmTrainer()" style="margin-top:6px">✓ Confirm Trainer</button>
     </div>
   </div>
 </div>
@@ -213,12 +221,12 @@ tr:last-child td{border-bottom:none}
       <span id="armStat" class="gn C">Stocked</span>
     </div>
     <div id="armCost" class="muted" style="font-size:.78rem;margin-bottom:8px"></div>
-    <button class="btn br sm fw" onclick="expendArmory()">⚔ Expend Armory (After Battle)</button>
+    <button class="btn br sm fw admin-only" onclick="expendArmory()">⚔ Expend Armory (After Battle)</button>
   </div>
   <div class="box">
     <div class="C" style="font-size:.87rem;margin-bottom:5px">⚒ Smithy <span class="tag tg">Craft Orders</span></div>
     <div id="smithyStat" style="margin-bottom:6px"></div>
-    <div id="smithyForm">
+    <div id="smithyForm" class="admin-only">
       <label>Craft Type</label>
       <select id="smithyType" onchange="smithyTypeChange()">
         <option value="">Choose...</option>
@@ -252,7 +260,7 @@ tr:last-child td{border-bottom:none}
   <div class="box">
     <div class="C" style="font-size:.87rem;margin-bottom:5px">📜 Scriptorium</div>
     <div id="scrollStat" style="margin-bottom:7px"></div>
-    <div id="scrollForm">
+    <div id="scrollForm" class="admin-only">
       <div class="row">
         <div style="flex:2"><label>Spell Name</label><input type="text" id="scrollSpell" placeholder="e.g. Cure Wounds"></div>
         <div><label>Level</label>
@@ -276,8 +284,8 @@ tr:last-child td{border-bottom:none}
       <div style="display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted)"><span>Switching Mode</span><span id="gardenSwLbl"></span></div>
       <div class="prog"><div class="pf pbl" id="gardenSwFill" style="width:0%"></div></div>
     </div>
-    <div id="gardenHarvest"></div>
-    <div id="gardenSwBtn"></div>
+    <div id="gardenHarvest" class="admin-only"></div>
+    <div id="gardenSwBtn" class="admin-only"></div>
     <div id="gardenInv" style="margin-top:10px"></div>
   </div>
 </div>
@@ -290,7 +298,7 @@ tr:last-child td{border-bottom:none}
     <div class="box"><div class="C" style="font-size:.87rem;margin-bottom:5px">🎭 Theatre</div><div class="muted">"We open in a week!" — VVV, every single week.</div></div>
     <div class="box">
       <div class="C" style="font-size:.87rem;margin-bottom:6px">🎰 Gaming Hall</div>
-      <button class="btn bg fw" onclick="rollGaming()">🎲 Roll d100</button>
+      <button class="btn bg fw admin-only" onclick="rollGaming()">🎲 Roll d100</button>
       <div id="gameFb" class="fb"></div>
     </div>
     <div class="box"><div class="C" style="font-size:.87rem;margin-bottom:5px">🍽 Rhizia Rising</div><div class="muted">Kitchen Network active — all important events within 10 miles, known creatures within 50 miles.</div></div>
@@ -320,20 +328,37 @@ tr:last-child td{border-bottom:none}
   <div id="smithyInvEl"><div class="muted">No items crafted yet.</div></div>
 </div>
 
-<button class="end-btn" onclick="endWeek()">⚔️ &nbsp; End Week &amp; Advance &nbsp; ⚔️</button>
+<button class="end-btn admin-only" onclick="endWeek()">⚔️ &nbsp; End Week &amp; Advance &nbsp; ⚔️</button>
 
 <div class="card">
   <h2>📜 Weekly Chronicle</h2>
   <div style="overflow-x:auto"><div id="chronicle"><div class="muted" style="padding:20px;text-align:center">No weeks recorded yet.</div></div></div>
 </div>
-<div style="text-align:right;margin-bottom:20px">
+<div class="admin-only" style="text-align:right;margin-bottom:20px">
   <button class="btn bgh sm" onclick="if(confirm('Delete ALL Frostgarde data permanently?')){stateRef.remove().then(()=>location.reload())}">⚠ Clear All Data</button>
 </div>
 </main>
 
 <!-- ═══ Firebase SDK (compat — works with inline onclick handlers) ═══ -->
+<!-- Login Modal -->
+<div id="loginModal" class="modal-hide">
+  <div class="modal-box">
+    <h2 class="C">⚙ Admin Login</h2>
+    <label>Email</label>
+    <input type="email" id="loginEmail" placeholder="your@email.com" style="margin-bottom:8px">
+    <label>Password</label>
+    <input type="password" id="loginPwd" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+    <div id="loginErr" style="color:var(--red);font-size:.8rem;min-height:18px;margin-top:5px"></div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn bg" onclick="doLogin()">Sign In</button>
+      <button class="btn bgh" onclick="closeLoginModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 
 <script>
 // ═══════════ FIREBASE — paste your project config here ═══════════
@@ -348,6 +373,39 @@ firebase.initializeApp({
 });
 const db = firebase.database();
 const stateRef = db.ref('frostgarde');
+const auth = firebase.auth();
+const ADMIN_EMAIL = 'j3ffsj@gmail.com';
+
+// ═══════════ AUTH ═══════════
+function openLoginModal(){
+  document.getElementById('loginModal').classList.remove('modal-hide');
+  setTimeout(()=>document.getElementById('loginEmail').focus(),50);
+}
+function closeLoginModal(){
+  document.getElementById('loginModal').classList.add('modal-hide');
+  document.getElementById('loginErr').textContent='';
+  document.getElementById('loginPwd').value='';
+}
+function doLogin(){
+  const email=document.getElementById('loginEmail').value.trim();
+  const pwd=document.getElementById('loginPwd').value;
+  const err=document.getElementById('loginErr');
+  err.textContent='';
+  auth.signInWithEmailAndPassword(email,pwd)
+    .then(()=>closeLoginModal())
+    .catch(e=>{err.textContent=e.message;});
+}
+function adminSignOut(){auth.signOut();}
+
+auth.onAuthStateChanged(function(user){
+  const isAdmin=!!(user&&user.email===ADMIN_EMAIL);
+  document.body.classList.toggle('is-admin',isAdmin);
+  document.getElementById('adminLoginBtn').style.display=isAdmin?'none':'inline-block';
+  const ind=document.getElementById('adminIndicator');
+  ind.style.display=isAdmin?'inline-flex':'none';
+  if(isAdmin)document.getElementById('adminEmail').textContent=user.email;
+  render();
+});
 
 // ═══════════ CONFIG ═══════════
 const ANIM=[
@@ -691,7 +749,7 @@ function renderSmithyInv(){
   if(!S.smithyInv||!S.smithyInv.length){el.innerHTML='<div class="muted">No items crafted yet.</div>';return;}
   el.innerHTML=S.smithyInv.map((it,i)=>`<div class="ir">
     <span>${it.type==='magic'?'✨':'🔨'} ${it.item}${it.type==='magic'?' <span class="tag tg">Magic Armament</span>':' <span class="tag tb">Smith\'s Tools</span>'}</span>
-    <button class="btn br sm" onclick="S.smithyInv.splice(${i},1);save();renderSmithyInv()">Remove</button>
+    <button class="btn br sm admin-only" onclick="S.smithyInv.splice(${i},1);save();renderSmithyInv()">Remove</button>
   </div>`).join('');
 }
 
@@ -766,7 +824,7 @@ function renderGarden(){
     {k:'ra',n:'Ration Days',ico:'🍞',use:1}
   ];
   document.getElementById('gardenInv').innerHTML='<div class="C" style="font-size:.7rem;color:var(--muted);margin-bottom:5px">GARDEN STORES</div>'+
-    items.map(i=>`<div class="ir"><span>${i.ico} ${i.n}</span><span style="display:flex;align-items:center;gap:8px"><strong class="gv">${g[i.k]||0}</strong><button class="btn br sm" onclick="useGItem('${i.k}',${i.use})" ${(g[i.k]||0)<i.use?'disabled':''}>Use 1</button></span></div>`).join('');
+    items.map(i=>`<div class="ir"><span>${i.ico} ${i.n}</span><span style="display:flex;align-items:center;gap:8px"><strong class="gv">${g[i.k]||0}</strong><button class="btn br sm admin-only" onclick="useGItem('${i.k}',${i.use})" ${(g[i.k]||0)<i.use?'disabled':''}>Use 1</button></span></div>`).join('');
 }
 
 // ═══════════ GAMING HALL ═══════════
@@ -785,11 +843,11 @@ function rollGaming(){
 // ═══════════ INVENTORIES ═══════════
 function renderInv(){
   const hw=document.getElementById('hwInv');
-  hw.innerHTML=S.hwInv.length?S.hwInv.map((w,i)=>`<div class="ir"><span>💧 ${w.label}</span><button class="btn br sm" onclick="S.hwInv.splice(${i},1);save();renderInv()">Use</button></div>`).join(''):'<div class="muted">None on hand.</div>';
+  hw.innerHTML=S.hwInv.length?S.hwInv.map((w,i)=>`<div class="ir"><span>💧 ${w.label}</span><button class="btn br sm admin-only" onclick="S.hwInv.splice(${i},1);save();renderInv()">Use</button></div>`).join(''):'<div class="muted">None on hand.</div>';
   const ri=document.getElementById('relInv');
-  ri.innerHTML=S.relInv.length?S.relInv.map((r,i)=>`<div class="ir"><span>📿 ${r.name} <span class="tag ${r.rar==='common'?'tg':'tb'}">${r.rar}</span></span><button class="btn br sm" onclick="S.relInv.splice(${i},1);save();renderInv()">Use</button></div>`).join(''):'<div class="muted">None on hand.</div>';
+  ri.innerHTML=S.relInv.length?S.relInv.map((r,i)=>`<div class="ir"><span>📿 ${r.name} <span class="tag ${r.rar==='common'?'tg':'tb'}">${r.rar}</span></span><button class="btn br sm admin-only" onclick="S.relInv.splice(${i},1);save();renderInv()">Use</button></div>`).join(''):'<div class="muted">None on hand.</div>';
   const si=document.getElementById('scrollInv');
-  si.innerHTML=S.scrlInv.length?S.scrlInv.map((sc,i)=>`<div class="ir"><span>📜 ${sc.spell} <span class="tag tb">Level ${sc.lvl}</span></span><button class="btn br sm" onclick="S.scrlInv.splice(${i},1);save();renderInv()">Use</button></div>`).join(''):'<div class="muted">None on hand.</div>';
+  si.innerHTML=S.scrlInv.length?S.scrlInv.map((sc,i)=>`<div class="ir"><span>📜 ${sc.spell} <span class="tag tb">Level ${sc.lvl}</span></span><button class="btn br sm admin-only" onclick="S.scrlInv.splice(${i},1);save();renderInv()">Use</button></div>`).join(''):'<div class="muted">None on hand.</div>';
 }
 
 // ═══════════ END WEEK ═══════════
@@ -891,5 +949,12 @@ stateRef.once('value').then(function(snap){
   });
 });
 </script>
+<footer>
+  <button id="adminLoginBtn" class="btn bgh sm" onclick="openLoginModal()" style="opacity:.35;font-size:.65rem">⚙ Admin</button>
+  <span id="adminIndicator" style="display:none;font-size:.75rem;color:var(--muted);align-items:center;gap:8px">
+    Logged in as <span id="adminEmail" class="gv"></span>
+    <button class="btn bgh sm" onclick="adminSignOut()" style="font-size:.65rem">Sign Out</button>
+  </span>
+</footer>
 </body>
 </html>
